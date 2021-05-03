@@ -1,13 +1,15 @@
 import "./App.css";
-import Header from "./components/Header/Header";
-import Home from "./components/Home/Home";
+import Footer from "./components/molecules/Footer";
+import Header from "./components/molecules/Header";
+import Home from "./components/pages/Home";
 function App() {
   return (
-    <div className="App flex flex-col">
+    <div className="App flex flex-col h-full min-h-screen">
       <Header />
-      <main className="py-2">
+      <main className="flex-grow">
         <Home />
       </main>
+      <Footer />
     </div>
   );
 }
