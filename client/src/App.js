@@ -1,7 +1,7 @@
 import "./App.css";
-import Footer from "./components/molecules/Footer";
-import Header from "./components/molecules/Header";
-import Home from "./components/pages/Home";
+import Footer from "./components/Footer";
+import Header from "./components/Header";
+import Home from "./components/Home";
 function App() {
   return (
     <div className="App flex flex-col h-full min-h-screen">
