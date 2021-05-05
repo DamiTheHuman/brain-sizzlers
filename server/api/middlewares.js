@@ -3,7 +3,7 @@ import UserModel from "../lib/users/model.js";
 export default {
   loginRequired: async (req, res, next) => {
     //If the user is attempting to login do nothing
-    if (req.method === "POST") {
+    if (req.method === "POST" && req.originalUrl === "/users") {
       return next();
     }
     //Authenticate user

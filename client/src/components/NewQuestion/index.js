@@ -3,6 +3,9 @@ import _ from "lodash";
 import Option from "./Option";
 import Question from "../../models/question";
 import ErrorMessage from "../ErrorMessage";
+/**
+ * Handles the creation of a singular question belonging to a quiz
+ */
 class NewQuestion extends React.Component {
   state = { question: _.cloneDeep(Question), errorMessages: {} };
 

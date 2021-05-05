@@ -5,6 +5,7 @@ import session from "express-session";
 import cors from "cors";
 import Middlewares from "./api/middlewares.js";
 import UserRouter from "./lib/users/router.js";
+import QuizRouter from "./lib/quizzes/router.js";
 const app = express(); //initialize server
 app.use(express.json()); //recive information in json
 app.use(
@@ -17,8 +18,8 @@ app.use(cookieParser());
 // initialize express-session to allow us track the logged-in user across sessions.
 app.use(
   session({
-    secret: "keyboard cat",
-    cookie: { maxAge: 600000 },
+    secret: "hc secret",
+    cookie: { maxAge: Date.now() + 30 * 86400 * 1000 },
     resave: true,
     saveUninitialized: true,
   })
@@ -30,6 +31,7 @@ mongoose.connect(
 
 app.use(Middlewares.loginRequired);
 app.use(UserRouter);
+app.use(QuizRouter);
 
 app.listen(3001, () => {
   console.log("Server is running on port 3001....");

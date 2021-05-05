@@ -1,8 +1,12 @@
 import React from "react";
+import _ from "lodash";
 import { Redirect } from "react-router-dom";
+import { createQuiz } from "../../actions/index";
 import ErrorMessage from "../ErrorMessage";
 import NewQuestion from "../NewQuestion";
-
+/**
+ * Manages the display of slides through the process of creating a quiz
+ */
 class QuizCreate extends React.Component {
   state = {
     name: "",
@@ -151,7 +155,8 @@ class QuizCreate extends React.Component {
    * Submits and saves the quiz
    */
   submitQuiz = () => {
-    console.log(this.state);
+    const quizData = _.pick(this.state, ["name", "description", "questions"]);
+    createQuiz(quizData);
     return <Redirect to="/" />;
   };
 

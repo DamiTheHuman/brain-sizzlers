@@ -56,3 +56,36 @@ export const logoutUser = () => async (dispatch) => {
     payload: null,
   });
 };
+/**
+ * Saves the data of a quiz into the server
+ * @param {Object} quiz the quiz being added to the database
+ * @returns
+ */
+export const createQuiz = async (quiz) => {
+  const request = await fetch("http://localhost:3001/quiz/create", {
+    method: "POST",
+    body: JSON.stringify({
+      quiz: quiz,
+    }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+  });
+};
+/**
+ * Fetches the list of quizzes which pass the set query from the DB
+ * @param {String} query the custom query to be run against the DB
+ * @returns
+ */
+export const fetchQuizzes = async (query = "") => {
+  const request = await fetch("http://localhost:3001/quiz/all", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+  });
+  const response = await request.json();
+  return response;
+};
