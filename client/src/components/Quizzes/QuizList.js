@@ -13,14 +13,17 @@ class QuizList extends React.Component {
     const response = await fetchQuizzes();
     this.setState({ quizzes: response.data });
   };
-
+  /**
+   * Renders a list of quizzes for the user to select from
+   */
   renderQuizList = () => {
-    return this.state.quizzes.map(({ quiz, author }, index) => {
+    return this.state.quizzes.map((quiz, index) => {
       return (
         <tr className="quiz-item bg-gray-200" key={index}>
           <td>{index}</td>
           <td>{quiz.name}</td>
-          <td>{author.name}</td>
+          <td>{quiz.author.name}</td>
+          <td>{quiz.attempts == 0 ? "EASY" : "Hard"}</td>
         </tr>
       );
     });
@@ -38,6 +41,7 @@ class QuizList extends React.Component {
               <th className="text-left">#</th>
               <th className="text-left">Quiz</th>
               <th className="text-left">Author</th>
+              <th className="text-left">Difficulty</th>
             </tr>
           </thead>
           <tbody>{this.renderQuizList()}</tbody>

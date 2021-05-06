@@ -13,21 +13,13 @@ class PrivateRoute extends React.Component {
   }
   render() {
     const testing = true;
-    if (testing) {
-      return (
-        <Switch>
-          <Route path="/quiz" component={SizzlersList} exact />
-          <Route path="/quiz/new" component={SizzlersCreate} exact />
-        </Switch>
-      );
-    }
     //user is not logged in
-    if (!this.props.users) {
+    if (!this.props.users && testing === false) {
       return <Redirect to="/" />;
     } else {
       return (
         <Switch>
-          <Route path="/quiz" component={SizzlersList} exact />
+          <Route path="/quiz/all" component={SizzlersList} exact />
           <Route path="/quiz/new" component={SizzlersCreate} exact />
         </Switch>
       );

@@ -114,6 +114,7 @@ class NewQuestion extends React.Component {
   validateForm = () => {
     var errorCount = 0;
     var errorMessages = {};
+
     //No Question name passed
     if (!this.state.question.description) {
       errorMessages.noQuestion = "Please provide a value for your question";
@@ -131,6 +132,20 @@ class NewQuestion extends React.Component {
       errorMessages: errorMessages,
     });
     return errorCount === 0;
+  };
+  /**
+   * Performs trimming of the the question data before moving on
+   */
+  cleanUpData = () => {
+    const question = this.state.question;
+    question.description = question.description.trim();
+    question.options = question.options.map((option) => {
+      option.option = option.option.trim();
+      return option;
+    });
+    this.setState({
+      question: question,
+    });
   };
   /**
    * Renders an error message if the input field is null
@@ -164,6 +179,8 @@ class NewQuestion extends React.Component {
             className="bg-success border p-2"
             onClick={() => {
               if (this.validateForm()) {
+                //Clean upq question data
+                this.cleanUpData();
                 this.props.addQuestion(this.state.question);
                 this.props.loadNextSlide();
               }

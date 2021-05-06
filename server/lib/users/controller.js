@@ -20,7 +20,13 @@ export default {
       audience: process.env.CLIENT_ID,
     });
     const { name, email, picture } = ticket.getPayload();
-    const newUser = { name: name, email: email, picture: picture };
+    const newUser = {
+      name: name,
+      email: email,
+      picture: picture,
+      points: 0,
+      attempts: 0,
+    };
     /**
      * Save the user if the user is new or updates the user if they alaredy exist
      */

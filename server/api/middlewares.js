@@ -13,6 +13,8 @@ export default {
       if (user) {
         req.user = user; //store the user in the request object
         return next();
+      } else {
+        await req.session.destroy();
       }
     }
     if (req.method === "GET") {

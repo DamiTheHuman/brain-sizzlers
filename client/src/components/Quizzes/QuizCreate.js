@@ -12,6 +12,8 @@ class QuizCreate extends React.Component {
     name: "",
     description: "",
     questions: [],
+    timesCompleted: 0,
+    attempts: 0,
     questionCount: 3,
     currentSlide: 0,
     errorMessages: {},
@@ -64,6 +66,7 @@ class QuizCreate extends React.Component {
               className="bg-success border p-2"
               onClick={() => {
                 if (this.validateQuizData()) {
+                  this.cleanUpData();
                   this.loadNextSlide();
                 }
               }}
@@ -152,10 +155,28 @@ class QuizCreate extends React.Component {
     this.setState({ currentSlide: this.state.currentSlide - 1 });
   };
   /**
+   * Performs trimming of the the quiz data
+   */
+  cleanUpData = () => {
+    this.setState({
+      name: this.state.name.trim(),
+      description: this.state.description.trim(),
+    });
+  };
+  /**
    * Submits and saves the quiz
    */
   submitQuiz = () => {
-    const quizData = _.pick(this.state, ["name", "description", "questions"]);
+    const quizData = _.pick(this.state, [
+      "name",
+      "description",
+      "questions",
+      "difficulty",
+      "timesCompleted",
+      "attempts",
+    ]);
+    //Reformat to name,desc,difficultu,timecomp and attempts to top layer
+    //while questions is at bottoom
     createQuiz(quizData);
     return <Redirect to="/" />;
   };

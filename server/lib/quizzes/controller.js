@@ -9,8 +9,16 @@ export default {
     if (userId == null) {
       return;
     }
-    const data = req.body;
-    const quiz = new QuizModel({ quiz: data.quiz, author: userId });
+    const quizData = req.body.quiz;
+    const quiz = new QuizModel({
+      name: quizData.name,
+      description: quizData.description,
+      questions: quizData.questions,
+      difficulty: 0,
+      timesCompleted: quizData.timesCompleted,
+      attempts: quizData.attempts,
+      author: userId,
+    });
     /**
      * Save a new quiz to the database
      */
