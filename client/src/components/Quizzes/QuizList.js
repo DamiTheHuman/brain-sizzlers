@@ -1,5 +1,7 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { fetchQuizzes } from "../../actions/index";
+import Loader from "../Loader";
 
 class QuizList extends React.Component {
   state = { quizzes: null };
@@ -21,9 +23,11 @@ class QuizList extends React.Component {
       return (
         <tr className="quiz-item bg-gray-200" key={index}>
           <td>{index}</td>
-          <td>{quiz.name}</td>
+          <td>
+            <Link to={`/quiz/${quiz.name}`}>{quiz.name}</Link>
+          </td>
           <td>{quiz.author.name}</td>
-          <td>{quiz.attempts == 0 ? "EASY" : "Hard"}</td>
+          <td>{quiz.attempts === 0 ? "EasY" : "Hard"}</td>
         </tr>
       );
     });
@@ -31,7 +35,7 @@ class QuizList extends React.Component {
 
   render() {
     if (!this.state.quizzes) {
-      return "Loading...";
+      return <Loader />;
     }
     return (
       <div className="container quiz-list py-8">

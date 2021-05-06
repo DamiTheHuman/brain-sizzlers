@@ -8,7 +8,7 @@ function App() {
   return (
     <div className="App flex flex-col h-full min-h-screen">
       <Header />
-      <main className="flex-grow">
+      <main className="flex-grow pb-8">
         <Switch>
           <Route path="/" component={Home} exact />
         </Switch>

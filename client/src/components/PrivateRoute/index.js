@@ -2,8 +2,9 @@ import React from "react";
 import { connect } from "react-redux";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { fetchUser } from "../../actions";
-import SizzlersList from "../Quizzes/QuizList";
-import SizzlersCreate from "../Quizzes/QuizCreate";
+import QuizList from "../Quizzes/QuizList";
+import QuizCreate from "../Quizzes/QuizCreate";
+import QuizShow from "../Quizzes/QuizShow";
 /**
  * Checks if the user is authenticated before logging them in
  */
@@ -19,8 +20,9 @@ class PrivateRoute extends React.Component {
     } else {
       return (
         <Switch>
-          <Route path="/quiz/all" component={SizzlersList} exact />
-          <Route path="/quiz/new" component={SizzlersCreate} exact />
+          <Route path="/quiz/all" component={QuizList} exact />
+          <Route path="/quiz/new" component={QuizCreate} exact />
+          <Route path="/quiz/:name" component={QuizShow} exact />
         </Switch>
       );
     }

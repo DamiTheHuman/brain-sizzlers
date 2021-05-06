@@ -36,4 +36,12 @@ export default {
     res.status(201);
     res.status(200).send({ status: 0, data: quizzes });
   },
+
+  fetchQuiz: async (req, res) => {
+    const quiz = await QuizModel.findOne({ name: req.params.name })
+      .populate("author")
+      .exec();
+    res.status(201);
+    res.status(200).send({ status: 0, data: quiz });
+  },
 };

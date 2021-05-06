@@ -89,3 +89,19 @@ export const fetchQuizzes = async (query = "") => {
   const response = await request.json();
   return response;
 };
+/**
+ * Fetches a specified quiz from the database
+ * @param {String} quizName the quiz to fetch
+ * @returns
+ */
+export const fetchQuiz = async (quizName) => {
+  const request = await fetch(`http://localhost:3001/quiz/${quizName}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+  });
+  const response = await request.json();
+  return response;
+};
