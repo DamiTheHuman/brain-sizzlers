@@ -8,7 +8,13 @@ import Question from "../Question";
  * Displays a singular quiz selected by the user
  */
 class QuizShow extends React.Component {
-  state = { quiz: null, currentSlide: 0, answers: [] };
+  state = {
+    quiz: null,
+    currentTab: 0,
+    currentSlide: 0,
+    answers: [],
+    testCompleted: false,
+  };
   componentDidMount() {
     this.fetchQuiz();
   }
@@ -20,28 +26,59 @@ class QuizShow extends React.Component {
     const quiz = await fetchQuiz(quizName);
     this.setState({
       quiz: quiz.data,
-      answers: new Array(quiz.data.questions.length),
+      answers: [],
+      testCompleted: false,
     });
+  };
+  /**
+   * Renders content based on the currently selected tab
+   */
+  renderTabContent = () => {
+    if (this.state.currentTab === 0) {
+      return (
+        <div className="quiz-description flex flex-col space-y-4 p-4 w-1/2 border-r ">
+          <h3 className="font-semibold text-2xl px-2">
+            Quiz 0. {this.state.quiz.name}
+          </h3>
+          <hr />
+          <p>{this.state.quiz.description}</p>
+          <hr />
+          <p>
+            Author - {""}
+            <span className="font-semibold">{this.state.quiz.author.name}</span>
+          </p>
+        </div>
+      );
+    } else {
+      return (
+        <div className="quiz-description flex flex-col space-y-4 p-4 w-1/2 border-r ">
+          <Feedback quiz={this.state.quiz} answers={this.state.answers} />
+        </div>
+      );
+    }
   };
   /**
    * Renders content to the user based on the current slide count
    */
   renderSlide = () => {
     if (this.state.currentSlide === 0) {
-      const quiz = this.state.quiz;
       return (
-        <div className="quiz-data">
-          Show Quiz
-          <div className="quiz-data">
-            <h2 className="font-semibold">{quiz.name}</h2>
-            <p>{quiz.description}</p>
-            <p>This Quiz has {quiz.questions.length} Questions</p>
+        <div className="quiz-data flex items-center">
+          <div className="flex items-center flex-col space-y-2 px-8">
+            <h2 className="font-semibold text-2xl">Are you ready?</h2>
+            <p className="">
+              Ensure you are appropriately prepared for the questions that are
+              about to unfold and remember. The questions could be about
+              anything. By anyone so dont think too hard on failure or too
+              highly on success. Just have fun and dont forget the smell of the
+              game.
+            </p>
             <div
               onClick={() => {
                 this.loadNextSlide();
               }}
             >
-              <Button>Are you ready?</Button>
+              <Button>Begin!</Button>
             </div>
           </div>
         </div>
@@ -52,18 +89,35 @@ class QuizShow extends React.Component {
     ) {
       const index = this.state.currentSlide - 1; //The index of the question
       return (
-        <Question
-          question={this.state.quiz.questions[index]}
-          index={index}
-          loadNextSlide={this.loadNextSlide}
-          loadPreviousSlide={this.loadPreviousSlide}
-          saveAnswer={this.saveAnswer}
-        />
+        <div className="quiz-data flex items-center">
+          <div className="flex flex-col space-y-2 px-8 w-full">
+            <Question
+              question={this.state.quiz.questions[index]}
+              index={index}
+              loadNextSlide={this.loadNextSlide}
+              loadPreviousSlide={this.loadPreviousSlide}
+              saveAnswer={this.saveAnswer}
+            />
+          </div>
+        </div>
       );
     } else {
       return (
-        <div>
-          <Feedback quiz={this.state.quiz} answers={this.state.answers} />
+        <div className="quiz-data flex flex-col items-center space-y-2">
+          <div className="flex items-center px-8">
+            You did it you completed the quiz great job! Check out the results
+            tab to see how you scored and what you missed. There is always more
+            to learn so feel free to move on to the next challenge
+          </div>
+          <div
+            onClick={() => {
+              if (this.state.testCompleted) {
+                this.setState({ currentTab: 1 });
+              }
+            }}
+          >
+            <Button>View Results</Button>
+          </div>
         </div>
       );
     }
@@ -97,14 +151,63 @@ class QuizShow extends React.Component {
   saveAnswer = (value, index) => {
     var answers = this.state.answers;
     answers[index] = value;
-    this.setState({ answers: answers }, this.loadNextSlide());
+    this.setState(
+      {
+        answers: answers,
+        testCompleted: answers.length === this.state.quiz.questions.length,
+      },
+      this.loadNextSlide()
+    );
   };
-
+  getTabStyling = (activeIndex, disabled = false) => {
+    if (disabled) {
+      return "bg-gray-200 h-full py-3 px-2 text-gray-300 border-r border-gray-300 cursor-not-allowed";
+    }
+    if (this.state.currentTab === activeIndex) {
+      return "bg-white h-full py-3 px-2 text-gray-700 border-r border-gray-300 cursor-pointer";
+    } else {
+      return "bg-gray-200 h-full py-3 px-2 text-gray-700 border-r border-gray-300 cursor-pointer";
+    }
+  };
   render() {
     if (!this.state.quiz) {
       return <Loader />;
     }
-    return <div className="container">{this.renderSlide()}</div>;
+    return (
+      <div className="quiz-show h-full">
+        <div className="border-b">
+          <div className="flex text-white items-center bg-gray-200 text-sm">
+            <div
+              className={this.getTabStyling(0)}
+              onClick={() => {
+                this.setState({ currentTab: 0 });
+              }}
+            >
+              Description
+            </div>
+            <div
+              className={this.getTabStyling(
+                1,
+                this.state.testCompleted === false
+              )}
+              onClick={() => {
+                if (this.state.testCompleted) {
+                  this.setState({ currentTab: 1 });
+                }
+              }}
+            >
+              Results
+            </div>
+          </div>
+        </div>
+        <div className="flex h-full container">
+          {this.renderTabContent()}
+          <div className="slide content flex flex-col justify-center space-y-4 p-4  w-1/2 px-2 border-l">
+            {this.renderSlide()}
+          </div>
+        </div>
+      </div>
+    );
   }
 }
 export default QuizShow;

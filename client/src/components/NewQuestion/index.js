@@ -3,6 +3,7 @@ import _ from "lodash";
 import Option from "./Option";
 import Question from "../../models/question";
 import ErrorMessage from "../ErrorMessage";
+import Button from "../Button";
 /**
  * Handles the creation of a singular question belonging to a quiz
  */
@@ -174,9 +175,9 @@ class NewQuestion extends React.Component {
           }}
         />
         {this.renderOptions()}
-        <div className="flex spcae-x-2">
-          <button
-            className="bg-success border p-2"
+        <div className="self-center flex spcae-x-2">
+          <div
+            className="px-2"
             onClick={() => {
               if (this.validateForm()) {
                 //Clean upq question data
@@ -186,17 +187,16 @@ class NewQuestion extends React.Component {
               }
             }}
           >
-            Next
-          </button>
-          <button
-            className="bg-danger border p-2"
+            <Button>Next</Button>
+          </div>
+          <div
             onClick={() => {
               this.props.addQuestion(this.state.question); //save it anyway
               this.props.loadPreviousSlide();
             }}
           >
-            Previous
-          </button>
+            <Button style="bg-secondary text-black">Previous</Button>
+          </div>
         </div>
       </React.Fragment>
     );

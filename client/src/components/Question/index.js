@@ -29,29 +29,33 @@ class Question extends React.Component {
     });
     return (
       <div>
-        <p> {question.description}</p>
-        <div className="flex flex-col">
-          <div className="flex flex-col">{renderOptions}</div>
-          <div className="flex space-x-2">
-            <div
-              onClick={() => {
-                this.props.saveAnswer(this.state.answer, this.props.index);
-                this.reset();
-              }}
-            >
-              <Button>Next</Button>
-            </div>
-          </div>
+        <div className="flex flex-col space-y-2">
+          <h3 className="font-semibold text-lg px-2 text-center">
+            {question.description}
+          </h3>
+          <div className="flex flex-col space-y-2">{renderOptions}</div>
         </div>
       </div>
     );
   };
   render() {
     return (
-      <div>
-        Question {this.props.index + 1}
+      <React.Fragment>
+        <h3 className="font-semibold text-2xl px-2 text-center">
+          Question No. {this.props.index + 1}
+        </h3>
+        <hr />
         <div>{this.renderQuestion()}</div>
-      </div>
+        <div
+          className="self-center"
+          onClick={() => {
+            this.props.saveAnswer(this.state.answer, this.props.index);
+            this.reset();
+          }}
+        >
+          <Button>Next</Button>
+        </div>
+      </React.Fragment>
     );
   }
 }

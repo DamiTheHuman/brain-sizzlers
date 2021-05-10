@@ -4,6 +4,7 @@ import { Redirect } from "react-router-dom";
 import { createQuiz } from "../../actions/index";
 import ErrorMessage from "../ErrorMessage";
 import NewQuestion from "../NewQuestion";
+import Button from "../Button";
 /**
  * Manages the display of slides through the process of creating a quiz
  */
@@ -52,6 +53,7 @@ class QuizCreate extends React.Component {
           <label htmlFor="questionCount">Choose the amount of questions</label>
           <select
             name="questionCount"
+            className="border"
             value={this.state.questionCount}
             onChange={(e) => {
               this.setState({ questionCount: parseInt(e.target.value) });
@@ -61,9 +63,8 @@ class QuizCreate extends React.Component {
             <option value="4">4</option>
             <option value="5">5</option>
           </select>
-          <div className="flex space-x-2">
-            <button
-              className="bg-success border p-2"
+          <div className="self-center flex space-x-2">
+            <div
               onClick={() => {
                 if (this.validateQuizData()) {
                   this.cleanUpData();
@@ -71,8 +72,8 @@ class QuizCreate extends React.Component {
                 }
               }}
             >
-              Next
-            </button>
+              <Button>Next</Button>
+            </div>
           </div>
         </React.Fragment>
       );
@@ -180,12 +181,84 @@ class QuizCreate extends React.Component {
     createQuiz(quizData);
     return <Redirect to="/" />;
   };
+  /**
+   * Gets the current step the user is currently on
+   * @returns {Number} the current step
+   */
+  getStepId = () => {
+    //1 - Creation step | 2 - questions step | 3 - summary step
+    if (this.state.currentSlide === 0) {
+      return 1;
+    } else if (this.state.currentSlide < 1 + this.state.questionCount) {
+      return 2;
+    } else {
+      return 3;
+    }
+  };
+  /**
+   * Gets the styling for the individual steps based on the current slide
+   * @param {*} index the index of fthe tab
+   * @returns {String} containing the classes to display when valid
+   */
+  getStepStyling = (index) => {
+    const stepId = this.getStepId();
+    if (stepId >= index) {
+      return "bg-primary text-white py-1 px-2 rounded";
+    }
+    return "bg-white text-primary py-1 px-2 rounded border border-primary";
+  };
+  /**
+   * Gets the styling for the beam that displays data
+   * @param {*} index the index of fthe beam
+   * @returns {String} containing the classes to display when valid
+   */
+  getStepBeamColor = (index) => {
+    const stepId = this.getStepId();
+    if (stepId >= index) {
+      return "font-semibold bg-primary h-1 flex-grow";
+    }
+    return "font-semibold bg-black h-1 flex-grow";
+  };
+  /**
+   * Gets the helper text for the set step
+   * @returns {String} the helper text for the step
+   */
+  getStepHelperText = () => {
+    const stepId = this.getStepId();
+    if (stepId === 1) {
+      return "What kind of quiz are your creating?";
+    } else if (stepId === 2) {
+      return "Please set appropriate Question details";
+    } else if (stepId === 3) {
+      return "Almost done! Submit the form when ready";
+    }
+  };
 
   render() {
     return (
-      <div className="container">
-        <h2>Create Quiz</h2>
-        <div className="flex flex-col space-y-2">{this.loadSlide()}</div>
+      <div className="container py-4 text-lg">
+        <h2 className="text-2xl font-semibold text-2xl">Create Quiz</h2>
+        <div className="flex flex-col items-center space-y-2 w-full py-8 ">
+          <div className="steps w-96">
+            <div className="flex items-center justify-between">
+              <p className={this.getStepStyling(1)}>1</p>
+              <p className={this.getStepBeamColor(2)}></p>
+              <p className={this.getStepStyling(2)}>2</p>
+              <p className={this.getStepBeamColor(3)}></p>
+              <p className={this.getStepStyling(3)}>3</p>
+            </div>
+          </div>
+
+          <div className="flex flex-col space-y-2 border rounded border-2 border-gray-400 shadow-2xl p-8">
+            <h2 className="text-xl font-bold text-center">
+              {this.getStepHelperText()}
+            </h2>
+            <h3 className="text-lg font-semibold text-center text-gray-400">
+              This is Step {this.getStepId()}.
+            </h3>
+            {this.loadSlide()}
+          </div>
+        </div>
       </div>
     );
   }
