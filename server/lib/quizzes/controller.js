@@ -32,7 +32,17 @@ export default {
    * Gets a list of quizzes from the database alongside the authors info
    */
   fetchQuizzes: async (req, res) => {
-    const quizzes = await QuizModel.find().populate("author").exec();
+    let limit = req.query.limit;
+    let sort = req.query.sort;
+    let order = -1;
+    if (req.query.order) {
+      order = req.query.order === "desc" ? -1 : 1;
+    }
+    const quizzes = await QuizModel.find()
+      .sort({ [sort]: order })
+      .limit(parseInt(limit))
+      .populate("author")
+      .exec();
     res.status(201);
     res.status(200).send({ status: 0, data: quizzes });
   },

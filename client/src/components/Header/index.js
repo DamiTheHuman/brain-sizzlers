@@ -52,12 +52,12 @@ class Header extends React.Component {
     return (
       <header className="bg-white text-black h-16 relative border-b border-gray-200">
         <div className="flex justify-between items-center h-full font-bold">
-          <HeaderLink>
+          <HeaderLink to="/">
             <img src={HeaderLogo} className="w-7" alt="logo" />
           </HeaderLink>
           <div className="flex relative h-full items-center px-2">
-            <HeaderLink>Home</HeaderLink>
-            <HeaderLink>About</HeaderLink>
+            <HeaderLink to="/">Home</HeaderLink>
+            <HeaderLink to="/">About</HeaderLink>
             {this.renderLogin()}
           </div>
         </div>

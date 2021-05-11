@@ -1,4 +1,5 @@
 import { LOGIN_USER, LOGOUT_USER, FETCH_USER } from "./types";
+import { objectToGetRequest } from "../api/general";
 /**
  * Fetch the current logged in user
  * @returns void
@@ -62,7 +63,7 @@ export const logoutUser = () => async (dispatch) => {
  * @returns
  */
 export const createQuiz = async (quiz) => {
-  const request = await fetch("http://localhost:3001/quiz/create", {
+  await fetch("http://localhost:3001/quiz/create", {
     method: "POST",
     body: JSON.stringify({
       quiz: quiz,
@@ -78,8 +79,12 @@ export const createQuiz = async (quiz) => {
  * @param {String} query the custom query to be run against the DB
  * @returns
  */
-export const fetchQuizzes = async (query = "") => {
-  const request = await fetch("http://localhost:3001/quiz/all", {
+export const fetchQuizzes = async (query = {}) => {
+  var getQuery = "";
+  if (query) {
+    getQuery = objectToGetRequest(query);
+  }
+  const request = await fetch(`http://localhost:3001/quiz/all${getQuery}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

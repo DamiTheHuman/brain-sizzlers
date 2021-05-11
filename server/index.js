@@ -29,7 +29,7 @@ mongoose.connect(
   { useNewUrlParser: true, useUnifiedTopology: true }
 );
 
-app.use(Middlewares.loginRequired);
+app.use("/users", Middlewares.loginRequired);
 app.use(UserRouter);
 app.use(QuizRouter);
 

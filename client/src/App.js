@@ -11,8 +11,8 @@ function App() {
       <main className="flex-grow pb-8">
         <Switch>
           <Route path="/" component={Home} exact />
+          <PrivateRoute />
         </Switch>
-        <PrivateRoute />
       </main>
       <Footer />
     </div>

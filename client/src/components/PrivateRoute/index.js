@@ -10,10 +10,10 @@ import QuizShow from "../Quizzes/QuizShow";
  */
 class PrivateRoute extends React.Component {
   componentDidMount() {
-    this.props.fetchUser(); //Check if the user is authenticated
+    this.props.fetchUser(); //Check if the user is authenticate
   }
   render() {
-    const testing = true;
+    const testing = false;
     //user is not logged in
     if (!this.props.users && testing === false) {
       return <Redirect to="/" />;

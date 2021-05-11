@@ -195,7 +195,7 @@ class NewQuestion extends React.Component {
               this.props.loadPreviousSlide();
             }}
           >
-            <Button style="bg-secondary text-black">Previous</Button>
+            <Button extraStyle="bg-secondary text-black">Previous</Button>
           </div>
         </div>
       </React.Fragment>

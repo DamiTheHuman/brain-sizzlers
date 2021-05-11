@@ -237,9 +237,11 @@ class QuizCreate extends React.Component {
   render() {
     return (
       <div className="container py-4 text-lg">
-        <h2 className="text-2xl font-semibold text-2xl">Create Quiz</h2>
         <div className="flex flex-col items-center space-y-2 w-full py-8 ">
           <div className="steps w-96">
+            <h2 className="text-2xl font-semibold text-2xl text-center mb-4">
+              Create Quiz
+            </h2>
             <div className="flex items-center justify-between">
               <p className={this.getStepStyling(1)}>1</p>
               <p className={this.getStepBeamColor(2)}></p>
@@ -250,12 +252,12 @@ class QuizCreate extends React.Component {
           </div>
 
           <div className="flex flex-col space-y-2 border rounded border-2 border-gray-400 shadow-2xl p-8">
-            <h2 className="text-xl font-bold text-center">
+            <h3 className="text-xl font-bold text-center">
               {this.getStepHelperText()}
-            </h2>
-            <h3 className="text-lg font-semibold text-center text-gray-400">
-              This is Step {this.getStepId()}.
             </h3>
+            <h4 className="text-lg font-semibold text-center text-gray-400">
+              This is Step {this.getStepId()}.
+            </h4>
             {this.loadSlide()}
           </div>
         </div>

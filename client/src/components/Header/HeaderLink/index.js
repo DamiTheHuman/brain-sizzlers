@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 /**
  * Renders the Header links for the project
  * @param {*} param0
@@ -7,11 +8,11 @@ import React from "react";
 const HeaderLink = ({ to, children }) => {
   return (
     <div className="header-link px-2 hover:bg-primary hover:text-white h-full flex items-center">
-      <a href={to}>{children}</a>
+      <Link to={to}>{children}</Link>
     </div>
   );
 };
-HeaderLink.prototype = {
-  to: "/#",
+HeaderLink.defaultProps = {
+  to: "/",
 };
 export default HeaderLink;
