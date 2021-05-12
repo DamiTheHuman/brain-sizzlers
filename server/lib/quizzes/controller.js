@@ -46,7 +46,9 @@ export default {
     res.status(201);
     res.status(200).send({ status: 0, data: quizzes });
   },
-
+  /**
+   * Fetches the specified quiz from the DB
+   */
   fetchQuiz: async (req, res) => {
     const quiz = await QuizModel.findOne({ name: req.params.name })
       .populate("author")

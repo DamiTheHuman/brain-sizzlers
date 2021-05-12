@@ -3,6 +3,7 @@ import { fetchQuizzes } from "../../actions/";
 import { Link } from "react-router-dom";
 import Button from "../Button";
 import RenderQuizList from "../RenderQuizList";
+import LeaderBoards from "../Leaderboards";
 
 class Home extends React.Component {
   state = { quizzes: null };
@@ -21,6 +22,7 @@ class Home extends React.Component {
     });
     this.setState({ quizzes: response.data });
   };
+
   render() {
     return (
       <div className="flex flex-col space-y-4">
@@ -56,10 +58,15 @@ class Home extends React.Component {
           </div>
         </div>
         <div className="container">
-          <h2 className="text-4xl  text-center font-bold">Popular Quizzes</h2>
+          <h2 className="text-4xl text-center font-bold">Popular Quizzes</h2>
           {/* Load popular quizzes*/}
           <div className="py-8">
             <RenderQuizList quizzes={this.state.quizzes} />
+          </div>
+          <h2 className="text-4xl text-center font-bold">Leader Boards</h2>
+          {/* Load popular quizzes*/}
+          <div className="py-8">
+            <LeaderBoards />
           </div>
         </div>
       </div>

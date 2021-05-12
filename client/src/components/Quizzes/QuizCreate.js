@@ -5,6 +5,7 @@ import { createQuiz } from "../../actions/index";
 import ErrorMessage from "../ErrorMessage";
 import NewQuestion from "../NewQuestion";
 import Button from "../Button";
+import Carousel from "../QuestionReviewCarousel";
 /**
  * Manages the display of slides through the process of creating a quiz
  */
@@ -89,17 +90,22 @@ class QuizCreate extends React.Component {
       );
     } else {
       return (
-        <div>
+        <React.Fragment>
           <h2>Your Quiz is ready to go!</h2>
           <p>Name : {this.state.name}</p>
           <p>Description: {this.state.description}</p>
           <p>Question Count: {this.state.questions.length}</p>
-          {/*TODO - Slider or carousel to render all questions*/}
-          <div></div>
-          <button className="bg-green-900 border" onClick={this.submitQuiz}>
-            Submit
-          </button>
-        </div>
+          <Carousel questions={this.state.questions} />
+          <hr />
+          <div className="self-center flex space-x-2 ">
+            <div onClick={this.submitQuiz}>
+              <Button extraStyle="bg-success text-white">Submit</Button>
+            </div>
+            <div onClick={this.loadPreviousSlide}>
+              <Button extraStyle="bg-secondary text-black">Previous</Button>
+            </div>
+          </div>
+        </React.Fragment>
       );
     }
   };
@@ -238,7 +244,7 @@ class QuizCreate extends React.Component {
     return (
       <div className="container py-4 text-lg">
         <div className="flex flex-col items-center space-y-2 w-full py-8 ">
-          <div className="steps w-96">
+          <div className="steps w-5/12">
             <h2 className="text-2xl font-semibold text-2xl text-center mb-4">
               Create Quiz
             </h2>
@@ -251,7 +257,7 @@ class QuizCreate extends React.Component {
             </div>
           </div>
 
-          <div className="flex flex-col space-y-2 border rounded border-2 border-gray-400 shadow-2xl p-8">
+          <div className="w-6/12 flex flex-col space-y-2 border rounded border-2 border-gray-400 shadow-2xl p-8">
             <h3 className="text-xl font-bold text-center">
               {this.getStepHelperText()}
             </h3>

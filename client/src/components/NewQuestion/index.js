@@ -175,9 +175,8 @@ class NewQuestion extends React.Component {
           }}
         />
         {this.renderOptions()}
-        <div className="self-center flex spcae-x-2">
+        <div className="self-center flex space-x-2">
           <div
-            className="px-2"
             onClick={() => {
               if (this.validateForm()) {
                 //Clean upq question data

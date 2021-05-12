@@ -5,6 +5,8 @@ const router = require("express").Router();
 
 router.get("/users", Controller.fetchUser);
 
+router.get("/users/all", Controller.fetchUsers);
+
 router.post("/users", Controller.loginUser);
 
 router.delete("/users", Controller.logoutUser);
