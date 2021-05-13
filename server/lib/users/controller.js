@@ -47,7 +47,6 @@ export default {
     /**
      * Save the user if the user is new or updates the user if they alaredy exist
      */
-
     const user = await UserModel.findOneAndUpdate(
       { email: email },
       newUser,

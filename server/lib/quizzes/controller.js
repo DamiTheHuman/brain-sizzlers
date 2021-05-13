@@ -15,7 +15,7 @@ export default {
       description: quizData.description,
       questions: quizData.questions,
       difficulty: 0,
-      timesCompleted: quizData.timesCompleted,
+      perfects: quizData.perfects,
       attempts: quizData.attempts,
       author: userId,
     });
@@ -55,5 +55,19 @@ export default {
       .exec();
     res.status(201);
     res.status(200).send({ status: 0, data: quiz });
+  },
+  updateQuiz: async (req, res) => {
+    const quiz = await QuizModel.findOne({ name: req.body.name })
+      .populate("author")
+      .exec();
+    if (quiz) {
+      if (req.body.data.incrementAttempts) {
+        quiz.attempts += 1;
+      }
+      if (req.body.data.incrementPerfects) {
+        quiz.perfects += 1;
+      }
+      quiz.save();
+    }
   },
 };

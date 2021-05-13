@@ -56,7 +56,6 @@ export const loginUser = (googleData) => async (dispatch) => {
     credentials: "include",
   });
   const response = await request.json();
-  console.log(response);
   dispatch({
     type: LOGIN_USER,
     payload: response.data,
@@ -119,7 +118,7 @@ export const fetchQuizzes = async (query = {}) => {
 /**
  * Fetches a specified quiz from the database
  * @param {String} quizName the quiz to fetch
- * @returns
+ * @returns {Object} containing response data from server
  */
 export const fetchQuiz = async (quizName) => {
   const request = await fetch(`http://localhost:3001/quiz/${quizName}`, {
@@ -131,4 +130,25 @@ export const fetchQuiz = async (quizName) => {
   });
   const response = await request.json();
   return response;
+};
+/**
+ * Updates a quiz within the database with the specified details
+ * @param {String} quizName the name of the quiz being updated
+ * @param {Object} data the data to update the quiz with
+ * @returns
+ */
+export const updateQuiz = async (quizName, data) => {
+  const request = await fetch("http://localhost:3001/quiz/update", {
+    method: "POST",
+    body: JSON.stringify({
+      name: quizName,
+      data: data,
+    }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+  });
+  const response = await request.json();
+  console.log(response);
 };

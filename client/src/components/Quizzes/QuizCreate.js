@@ -14,7 +14,7 @@ class QuizCreate extends React.Component {
     name: "",
     description: "",
     questions: [],
-    timesCompleted: 0,
+    perfects: 0,
     attempts: 0,
     questionCount: 3,
     currentSlide: 0,
@@ -179,7 +179,7 @@ class QuizCreate extends React.Component {
       "description",
       "questions",
       "difficulty",
-      "timesCompleted",
+      "perfects",
       "attempts",
     ]);
     //Reformat to name,desc,difficultu,timecomp and attempts to top layer

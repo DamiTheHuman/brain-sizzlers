@@ -38,7 +38,7 @@ class RenderQuizList extends React.Component {
               Created {formatDateToMMDDYY(quiz.createdAt)}
             </p>
             <p className="truncate">Attempted {quiz.attempts} Time(s)</p>
-            <p className="truncate">Completed {quiz.timesCompleted} Time(s)</p>
+            <p className="truncate">Perfected {quiz.perfects} Time(s)</p>
           </div>
         </Link>
       );

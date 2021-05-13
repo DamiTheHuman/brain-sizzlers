@@ -6,7 +6,7 @@ const QuizSchema = new mongoose.Schema(
     description: { type: String, required: true },
     questions: { type: Object, required: true },
     difficulty: { type: Number, required: true },
-    timesCompleted: { type: Number, required: true },
+    perfects: { type: Number, required: true },
     attempts: { type: Number, required: true },
     author: {
       type: Schema.Types.ObjectId,

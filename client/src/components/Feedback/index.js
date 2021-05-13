@@ -1,59 +1,28 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Button from "../Button";
+import Loader from "../Loader";
 /**
  * Displays feedback based on user question and answer data
  */
 class Feedback extends React.Component {
   /**
-   * Generates the users feedback based on the quiz and answer data
-   * @returns {Object}
-   */
-  generateUserFeedback = () => {
-    const quiz = this.props.quiz;
-    const feedback = [{}]; //The feedback on a per question basis
-    var correctAnswers = 0;
-    //Calculate the amount of answers the user got correct
-    for (var x = 0; x < quiz.questions.length; x++) {
-      for (var y = 0; y < quiz.questions[x].options.length; y++) {
-        if (quiz.questions[x].options[y].isAnswer === true) {
-          if (this.props.answers[x] === y) {
-            feedback[x] = {
-              question: quiz.questions[x].description,
-              correctOption: quiz.questions[x].options[y],
-              gotCorrect: true,
-            };
-            correctAnswers++;
-            break;
-          }
-          feedback[x] = {
-            question: quiz.questions[x].description,
-            correctOption: quiz.questions[x].options[y],
-            gotCorrect: false,
-          };
-          break;
-        }
-      }
-    }
-    feedback.correctAnswers = correctAnswers;
-    return feedback;
-  };
-  /**
-   *
-   * @param {Object} feedback contains data on the feedback calculated
+   *Renders the feedBackQuestions calculated form the feedback
    * @returns {JSX}
    */
-  renderFeedback = (feedback) => {
-    return feedback.map((feedback, index) => {
+  renderFeedback = () => {
+    return this.props.feedback.map((feedBackQuestion, index) => {
       return (
         <tr className="quiz-item bg-gray-200" key={index}>
           <td className="text-center">{index + 1}</td>
-          <td>{feedback.question}</td>
-          <td className="text-center">{feedback.gotCorrect ? "X" : "V"}</td>
+          <td>{feedBackQuestion.question}</td>
+          <td className="text-center">
+            {feedBackQuestion.gotCorrect ? "Y" : "X"}
+          </td>
           <td
             className="interactive"
             onClick={(e) => {
-              e.target.innerHTML = feedback.correctOption.option;
+              e.target.innerHTML = feedBackQuestion.correctOption.option;
               e.target.classList.remove("cursor-pointer");
               e.target.classList.remove("text-disabled");
               e.target.parentElement.classList.remove("interactive");
@@ -69,7 +38,10 @@ class Feedback extends React.Component {
   };
 
   render() {
-    const feedback = this.generateUserFeedback();
+    if (!this.props.feedback) {
+      return <Loader />;
+    }
+    const feedback = this.props.feedback;
     return (
       <React.Fragment>
         <h3 className="font-semibold text-2xl px-2">
@@ -80,17 +52,19 @@ class Feedback extends React.Component {
           On 0. {this.props.quiz.name} Quiz by {this.props.quiz.author.name}
         </h4>
         <hr />
-        <h4 className="font-semibold text-xl px-2">Solution Results</h4>
+        <h4 className="font-semibold text-xl px-2">
+          Solution feedBackQuestions
+        </h4>
         <table className="w-full border p-2">
           <thead>
             <tr className="bg-white">
               <th className="text-center px-2">#</th>
               <th className="text-left">Question</th>
-              <th className="text-left">Result</th>
+              <th className="text-left">feedBackQuestion</th>
               <th className="text-left">Answer</th>
             </tr>
           </thead>
-          <tbody>{this.renderFeedback(feedback)}</tbody>
+          <tbody>{this.renderFeedback()}</tbody>
         </table>
         <h4 className="px-2">Test completed in 0 (s).</h4>
         <Link to="/quiz/all">

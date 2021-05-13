@@ -1,5 +1,5 @@
 import React from "react";
-import { fetchQuiz } from "../../actions/index";
+import { fetchQuiz, updateQuiz } from "../../actions/index";
 import Button from "../Button";
 import Feedback from "../Feedback";
 import Loader from "../Loader";
@@ -14,6 +14,7 @@ class QuizShow extends React.Component {
     currentSlide: 0,
     answers: [],
     testCompleted: false,
+    feedback: {},
   };
   componentDidMount() {
     this.fetchQuiz();
@@ -52,7 +53,11 @@ class QuizShow extends React.Component {
     } else {
       return (
         <div className="quiz-description flex flex-col space-y-4 p-4 w-1/2 border-r ">
-          <Feedback quiz={this.state.quiz} answers={this.state.answers} />
+          <Feedback
+            feedback={this.state.feedback}
+            quiz={this.state.quiz}
+            answers={this.state.answers}
+          />
         </div>
       );
     }
@@ -75,6 +80,7 @@ class QuizShow extends React.Component {
             </p>
             <div
               onClick={() => {
+                updateQuiz(this.state.quiz.name, { incrementAttempts: true });
                 this.loadNextSlide();
               }}
             >
@@ -156,9 +162,56 @@ class QuizShow extends React.Component {
         answers: answers,
         testCompleted: answers.length === this.state.quiz.questions.length,
       },
-      this.loadNextSlide()
+      () => {
+        if (this.state.testCompleted) {
+          this.calculateFeedBack();
+        }
+        this.loadNextSlide();
+      }
     );
   };
+  /**
+   * Generates the users feedback based on the quiz and answer data
+   */
+  calculateFeedBack = () => {
+    const quiz = this.state.quiz;
+    const feedback = [{}]; //The feedback on a per question basis
+    var correctAnswers = 0;
+    //Calculate the amount of answers the user got correct
+    for (var x = 0; x < quiz.questions.length; x++) {
+      for (var y = 0; y < quiz.questions[x].options.length; y++) {
+        if (quiz.questions[x].options[y].isAnswer === true) {
+          if (this.state.answers[x] === y) {
+            feedback[x] = {
+              question: quiz.questions[x].description,
+              correctOption: quiz.questions[x].options[y],
+              gotCorrect: true,
+            };
+            correctAnswers++;
+            break;
+          }
+          feedback[x] = {
+            question: quiz.questions[x].description,
+            correctOption: quiz.questions[x].options[y],
+            gotCorrect: false,
+          };
+          break;
+        }
+      }
+    }
+    //Update the sucess rate
+    if (correctAnswers === quiz.questions.length) {
+      updateQuiz(quiz.name, { incrementPerfects: true });
+    }
+    feedback.correctAnswers = correctAnswers;
+    this.setState({ feedback: feedback });
+  };
+  /**
+   * Gets the styling for the tab component
+   * @param {Number} activeIndex
+   * @param {Boolean} disabled
+   * @returns
+   */
   getTabStyling = (activeIndex, disabled = false) => {
     if (disabled) {
       return "bg-gray-200 h-full py-3 px-2 text-gray-300 border-r border-gray-300 cursor-not-allowed";
