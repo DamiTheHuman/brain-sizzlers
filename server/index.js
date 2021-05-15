@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import session from "express-session";
 import cors from "cors";
 import Middlewares from "./api/middlewares.js";
+import AuthRouter from "./lib/auth/router.js";
 import UserRouter from "./lib/users/router.js";
 import QuizRouter from "./lib/quizzes/router.js";
 const app = express(); //initialize server
@@ -29,7 +30,8 @@ mongoose.connect(
   { useNewUrlParser: true, useUnifiedTopology: true }
 );
 
-app.use("/users", Middlewares.loginRequired);
+app.use("/auth", Middlewares.loginRequired);
+app.use(AuthRouter);
 app.use(UserRouter);
 app.use(QuizRouter);
 

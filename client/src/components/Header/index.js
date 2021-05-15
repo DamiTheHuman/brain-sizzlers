@@ -1,13 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
-import { loginUser, logoutUser, fetchUser } from "../../actions";
+import { loginUser, logoutUser, fetchSession } from "../../actions";
 import HeaderLink from "./HeaderLink";
 import GoogleAuthButton from "../GoogleAuthButton";
 import HeaderLogo from "../../assets/logo_no_text_inverted.png";
 
 class Header extends React.Component {
   componentDidMount() {
-    this.props.fetchUser();
+    this.props.fetchSession();
   }
   /**
    * Handles the attempt by the user to login via the google auth button
@@ -69,6 +69,8 @@ class Header extends React.Component {
 const mapStateToProps = (state) => {
   return { users: state.users };
 };
-export default connect(mapStateToProps, { loginUser, logoutUser, fetchUser })(
-  Header
-);
+export default connect(mapStateToProps, {
+  loginUser,
+  logoutUser,
+  fetchSession,
+})(Header);

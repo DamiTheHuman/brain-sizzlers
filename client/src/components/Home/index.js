@@ -40,14 +40,14 @@ class Home extends React.Component {
                   internet!
                 </p>
                 <div className="flex items-center justify-between">
-                  <Link to="quiz/new">
+                  <Link to="quizzes/new">
                     <Button extraStyle="bg-secondary text-black text-lg">
                       Create your challenge
                     </Button>
                   </Link>
                   <p className="font-semibold bg-secondary h-1 flex-grow"></p>
                   <p className="font-semibold bg-black h-1 flex-grow"></p>
-                  <Link to="quiz/all">
+                  <Link to="quizzes">
                     <Button extraStyle="bg-black text-secondary text-lg">
                       Test your knowledge
                     </Button>

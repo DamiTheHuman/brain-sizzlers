@@ -3,8 +3,8 @@ import { createRequire } from "module";
 const require = createRequire(import.meta.url);
 const router = require("express").Router();
 
-router.post("/quiz/create", Controller.createQuiz);
-router.get("/quiz/all", Controller.fetchQuizzes);
-router.get("/quiz/:name", Controller.fetchQuiz);
-router.put("/quiz/update/:name", Controller.updateQuiz);
+router.post("/quizzes/create", Controller.createQuiz);
+router.get("/quizzes", Controller.fetchQuizzes);
+router.get("/quizzes/:name", Controller.fetchQuiz);
+router.put("/quizzes/update/:name", Controller.updateQuiz);
 export default router;

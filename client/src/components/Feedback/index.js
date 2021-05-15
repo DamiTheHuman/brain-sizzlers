@@ -67,7 +67,7 @@ class Feedback extends React.Component {
           <tbody>{this.renderFeedback()}</tbody>
         </table>
         <h4 className="px-2">Test completed in 0 (s).</h4>
-        <Link to="/quiz/all">
+        <Link to="/quizzes">
           <Button>Try another Quiz</Button>
         </Link>
       </React.Fragment>

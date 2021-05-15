@@ -13,7 +13,7 @@ class RenderQuizList extends React.Component {
     return this.props.quizzes.map((quiz, index) => {
       return (
         <Link
-          to={`/quiz/${quiz.name}`}
+          to={`/quizzes/${quiz.name}`}
           className="quiz-item flex bg-gray-100 border px-8 items-center 
           transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-105 hover:shadow-xl"
           key={index}
