@@ -53,11 +53,17 @@ export default {
     const quiz = await QuizModel.findOne({ name: req.params.name })
       .populate("author")
       .exec();
-    res.status(201);
-    res.status(200).send({ status: 0, data: quiz });
+    if (quiz) {
+      res.status(200).send({ status: 0, data: quiz });
+    } else {
+      res.status(404);
+    }
   },
+  /**
+   * Updates the data of an existing quiz
+   */
   updateQuiz: async (req, res) => {
-    const quiz = await QuizModel.findOne({ name: req.body.name })
+    const quiz = await QuizModel.findOne({ name: req.params.name })
       .populate("author")
       .exec();
     if (quiz) {
@@ -68,6 +74,9 @@ export default {
         quiz.perfects += 1;
       }
       quiz.save();
+      res.status(200);
+    } else {
+      res.status(404);
     }
   },
 };
