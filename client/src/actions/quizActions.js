@@ -51,7 +51,7 @@ export const fetchQuiz = async (quizName) => {
     credentials: "include",
   });
   const response = await request.json();
-  return response;
+  return response.data;
 };
 /**
  * Updates a quiz within the database with the specified details

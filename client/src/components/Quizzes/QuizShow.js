@@ -26,7 +26,7 @@ class QuizShow extends React.Component {
     const quizName = this.props.match.params.name;
     const quiz = await fetchQuiz(quizName);
     this.setState({
-      quiz: quiz.data,
+      quiz: quiz,
       answers: [],
       testCompleted: false,
     });
