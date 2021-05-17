@@ -10,6 +10,10 @@ export const objectToGetRequest = (obj) => {
     if (str !== "?") {
       str += "&";
     }
+    if (typeof obj[key] === "object") {
+      str += key + "=" + JSON.stringify(obj[key]);
+      continue;
+    }
     str += key + "=" + encodeURIComponent(obj[key]);
   }
   return str;

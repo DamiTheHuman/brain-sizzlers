@@ -12,7 +12,6 @@ export const fetchSession = () => async (dispatch) => {
     credentials: "include",
   });
   const response = await request.json();
-  console.log(response.data);
   dispatch({
     type: FETCH_USER,
     payload: response.data ? response.data : null,

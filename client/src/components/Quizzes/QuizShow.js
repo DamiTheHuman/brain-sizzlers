@@ -1,5 +1,5 @@
 import React from "react";
-import { fetchQuiz, updateQuiz } from "../../actions/index";
+import { fetchQuiz, updateQuiz, createSubmission } from "../../actions/index";
 import Button from "../Button";
 import Feedback from "../Feedback";
 import Loader from "../Loader";
@@ -204,7 +204,21 @@ class QuizShow extends React.Component {
       updateQuiz(quiz.name, { incrementPerfects: true });
     }
     feedback.correctAnswers = correctAnswers;
-    this.setState({ feedback: feedback });
+    this.setState({ feedback: feedback }, () => {
+      this.createSubmission();
+    });
+  };
+  /**
+   * Creates a new submission based on the feedback and sends it to the database
+   */
+  createSubmission = async () => {
+    var submission = {
+      quizId: this.state.quiz._id,
+      correct: this.state.feedback.correctAnswers,
+      wrong:
+        this.state.feedback.correctAnswers - this.state.quiz.questions.length,
+    };
+    createSubmission(submission);
   };
   /**
    * Gets the styling for the tab component

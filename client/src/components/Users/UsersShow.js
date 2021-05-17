@@ -1,5 +1,6 @@
 import React from "react";
-import { fetchUser } from "../../actions/index";
+import CircularSlider from "@fseehawer/react-circular-slider";
+import { fetchUser, fetchSubmissions, fetchQuizzes } from "../../actions/index";
 import Card from "../Card";
 import Loader from "../Loader";
 import { formatDateToMMDDYY } from "../../api/general";
@@ -7,27 +8,88 @@ import { formatDateToMMDDYY } from "../../api/general";
  * Displays a singular uses information
  */
 class UsersShow extends React.Component {
-  state = { user: null };
+  state = { user: null, submissions: null, allQuizzes: null };
   componentDidMount() {
-    this.fetchUser();
+    this.fetchUserData();
   }
   /**
-   * Fetches the user from the database
+   * Fetches the userdata from the database
    */
-  fetchUser = async () => {
+  fetchUserData = async () => {
     const userName = this.props.match.params.name;
     const user = await fetchUser(userName);
-    console.log(user);
+    const query = {
+      find: { user: user._id },
+      limit: 10,
+      sort: "desc",
+    };
+    const submissions = await fetchSubmissions(query);
+    const allQuizzes = await fetchQuizzes();
     this.setState({
       user: user,
+      submissions: submissions,
+      allQuizzes: allQuizzes,
     });
   };
+  /**
+   * Renders the list of submissions that the user has made
+   * @returns {JSX}
+   */
+  renderRecentSubmissions = () => {
+    return this.state.submissions.map((submission, index) => {
+      return (
+        <div className="flex justify-between border-b py-2" key={index}>
+          <div className="flex space-x-2">
+            <p>{submission.quiz.name}</p>
+          </div>
+          <div>
+            <p>
+              Score : {submission.correct}/{submission.quiz.questions.length}
+            </p>
+          </div>
+        </div>
+      );
+    });
+  };
+  /**
+   * Calculate the average score the user has attained throughout their submissions
+   * @returns {Number}
+   */
+  calculateSubmissionAverage = () => {
+    if (this.state.submissions.length === 0 || !this.state.submissions) {
+      return "N/A";
+    }
+    var sum = 0;
+    for (var i = 0; i < this.state.submissions.length; i++) {
+      sum += parseInt(
+        (this.state.submissions[i].correct /
+          this.state.submissions[i].quiz.questions.length) *
+          100,
+        10
+      ); //don't forget to add the base
+    }
 
+    var avg = sum / this.state.submissions.length;
+    return avg;
+  };
+  /**
+   * Get perfects the users has achieved on unique quizzes
+   * @returns {Number}
+   */
+  getUniquePerfectQuizSubmissions = () => {
+    function onlyUnique(value, index, self) {
+      return (
+        self.indexOf(value) === index &&
+        value.correct === value.quiz.questions.length
+      );
+    }
+    var unique = this.state.submissions.filter(onlyUnique);
+    return unique;
+  };
   render() {
     if (!this.state.user) {
       return <Loader />;
     }
-    console.log(this.state.user.picture);
     return (
       <div className="container py-4">
         <div className="flex space-x-4">
@@ -84,10 +146,30 @@ class UsersShow extends React.Component {
                 body={
                   <div className="quizzes-solved flex justify-between items-center py-4">
                     <div>
-                      <p>Quizzes Solved</p>
-                      <p className="font-semibold">0</p>
+                      <p className="font-semibold">Completion</p>
+                      <p className="text-sm text-gray-600">
+                        Strive for Perfection
+                      </p>
                     </div>
-                    <div className="w-32 h-32 bg-red-200 rounded-full" />
+                    <CircularSlider
+                      width={170}
+                      label="Solved"
+                      labelColor="#DB5461"
+                      knobColor="#DB5461"
+                      knobDraggable={false}
+                      progressColorFrom="#DB5461"
+                      progressColorTo="#db313e"
+                      progressSize={12}
+                      trackColor="#eeeeee"
+                      trackSize={8}
+                      max={100}
+                      appendToValue={"%"}
+                      dataIndex={
+                        (this.getUniquePerfectQuizSubmissions().length /
+                          this.state.allQuizzes.length) *
+                        100
+                      }
+                    />
                   </div>
                 }
               />
@@ -95,10 +177,23 @@ class UsersShow extends React.Component {
                 body={
                   <div className="quizzes-solved flex justify-between items-center py-4">
                     <div>
-                      <p>Solution Average</p>
-                      <p className="font-semibold">0</p>
+                      <p className="font-semibold">Recent Solution Avg.</p>
                     </div>
-                    <div className="w-32 h-32 bg-success rounded-full" />
+                    <CircularSlider
+                      width={170}
+                      label="Average"
+                      labelColor="#005a58"
+                      knobColor="#005a58"
+                      knobDraggable={false}
+                      progressColorFrom="#00bfbd"
+                      progressColorTo="#009c9a"
+                      progressSize={12}
+                      trackColor="#eeeeee"
+                      trackSize={8}
+                      max={100}
+                      appendToValue={"%"}
+                      dataIndex={this.calculateSubmissionAverage()}
+                    />
                   </div>
                 }
               />
@@ -112,30 +207,7 @@ class UsersShow extends React.Component {
               }
               body={
                 <div className="user-info">
-                  <div className="flex justify-between border-b py-2">
-                    <div className="flex space-x-2">
-                      <p>Quiz 1</p>
-                    </div>
-                    <div>
-                      <p>Score : 2/3</p>
-                    </div>
-                  </div>
-                  <div className="flex justify-between border-b py-2">
-                    <div className="flex space-x-2">
-                      <p>Quiz 2</p>
-                    </div>
-                    <div>
-                      <p>Score : 3/3</p>
-                    </div>
-                  </div>
-                  <div className="flex justify-between border-b py-2">
-                    <div className="flex space-x-2">
-                      <p>Quiz 2</p>
-                    </div>
-                    <div>
-                      <p>Score : 3/3</p>
-                    </div>
-                  </div>
+                  {this.renderRecentSubmissions()}
                 </div>
               }
             />

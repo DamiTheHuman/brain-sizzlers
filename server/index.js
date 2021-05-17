@@ -7,6 +7,7 @@ import Middlewares from "./api/middlewares.js";
 import AuthRouter from "./lib/auth/router.js";
 import UserRouter from "./lib/users/router.js";
 import QuizRouter from "./lib/quizzes/router.js";
+import SubmissionRouter from "./lib/submissions/router.js";
 const app = express(); //initialize server
 app.use(express.json()); //recive information in json
 app.use(
@@ -34,6 +35,7 @@ app.use("/auth", Middlewares.loginRequired);
 app.use(AuthRouter);
 app.use(UserRouter);
 app.use(QuizRouter);
+app.use(SubmissionRouter);
 
 app.listen(3001, () => {
   console.log("Server is running on port 3001....");

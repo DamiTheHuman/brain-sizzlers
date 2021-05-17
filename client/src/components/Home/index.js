@@ -15,12 +15,12 @@ class Home extends React.Component {
    * Request all the quizzes from the database
    */
   fetchQuizzes = async () => {
-    const response = await fetchQuizzes({
+    const quizzes = await fetchQuizzes({
       limit: 3,
       sort: "attempts",
       order: "desc",
     });
-    this.setState({ quizzes: response.data });
+    this.setState({ quizzes: quizzes });
   };
 
   render() {
