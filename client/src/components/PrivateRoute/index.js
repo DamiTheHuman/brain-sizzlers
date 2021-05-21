@@ -1,16 +1,15 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Route, Redirect } from "react-router-dom";
 import { fetchSession } from "../../actions";
-import QuizList from "../Quizzes/QuizList";
-import QuizCreate from "../Quizzes/QuizCreate";
-import QuizShow from "../Quizzes/QuizShow";
 /**
- * Checks if the user is authenticated before logging them in
+ * Used to define routes that are private unless logged in
  */
 class PrivateRoute extends React.Component {
   componentDidMount() {
-    this.props.fetchSession(); //Check if the user is authenticate
+    if (!this.props.user) {
+      this.props.fetchSession(); //Check if the user is authenticated
+    }
   }
   render() {
     const testing = false;
@@ -19,11 +18,11 @@ class PrivateRoute extends React.Component {
       return <Redirect to="/" />;
     } else {
       return (
-        <Switch>
-          <Route path="/quizzes" component={QuizList} exact />
-          <Route path="/quizzes/new" component={QuizCreate} exact />
-          <Route path="/quizzes/:name" component={QuizShow} exact />
-        </Switch>
+        <Route
+          path={this.props.path}
+          component={this.props.component}
+          exact={this.props.exact}
+        />
       );
     }
   }

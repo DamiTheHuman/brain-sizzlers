@@ -57,7 +57,7 @@ class UsersShow extends React.Component {
    */
   calculateSubmissionAverage = () => {
     if (this.state.submissions.length === 0 || !this.state.submissions) {
-      return "N/A";
+      return 0;
     }
     var sum = 0;
     for (var i = 0; i < this.state.submissions.length; i++) {

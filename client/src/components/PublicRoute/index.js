@@ -1,19 +1,18 @@
 import React from "react";
-import { Switch, Route } from "react-router-dom";
-import Home from "../Home";
-import UsersShow from "../Users/UsersShow";
+import { Route } from "react-router-dom";
 
 /**
- * Public routes visisble to all users
+ * Used to define routes that are public to all users
  */
-class PublcRoute extends React.Component {
+class PublicRoute extends React.Component {
   render() {
     return (
-      <Switch>
-        <Route path="/" component={Home} exact />
-        <Route path="/users/:name" component={UsersShow} exact />
-      </Switch>
+      <Route
+        path={this.props.path}
+        component={this.props.component}
+        exact={this.props.exact}
+      />
     );
   }
 }
-export default PublcRoute;
+export default PublicRoute;
