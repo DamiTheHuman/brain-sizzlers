@@ -4,7 +4,7 @@ import React from "react";
  */
 const Button = ({ extraStyle, children }) => {
   return (
-    <button className={`px-2 py-1 font-semibold rounded  ${extraStyle}`}>
+    <button className={`px-2 py-1 font-semibold rounded ${extraStyle}`}>
       {children}
     </button>
   );
