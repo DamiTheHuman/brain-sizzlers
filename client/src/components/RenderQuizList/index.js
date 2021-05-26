@@ -2,10 +2,26 @@ import React from "react";
 import Loader from "../Loader";
 import { formatDateToMMDDYY } from "../../api/general";
 import { Link } from "react-router-dom";
+import Pill from "../Pill";
 /**
- * Generic rendering for a list of quizess
+ * Generic rendering for a list of quizzes
  */
 class RenderQuizList extends React.Component {
+  /**
+   * Calculates the difficulty of a quiz based on its sucess
+   * @param {*} quiz the quiz to get the difficulty from
+   */
+  getQuizDifficulty = (quiz) => {
+    const range = (quiz.perfects / quiz.attempts) * 100;
+
+    if (range >= 75 || quiz.attempts === 0) {
+      return <p className="text-success">Easy</p>;
+    } else if (range < 75 && range >= 25) {
+      return <p className="text-warning">Medium</p>;
+    } else {
+      return <p className="text-danger">Hard</p>;
+    }
+  };
   /**
    * Renders a list of quizzes for the user to select from
    */
@@ -26,11 +42,9 @@ class RenderQuizList extends React.Component {
               <h4 className="text-lg font-semibold">{quiz.name}</h4>
               <p className="two-line-overflow">{quiz.description}</p>
             </div>
-            <div className="flex-grow">
-              <p className="text-base truncate">{quiz.author.name}</p>
-              <p className="text-success">
-                {quiz.attempts === 0 ? "Easy" : "Hard"}
-              </p>
+            <div className="flex-grow flex flex-col space-y-2">
+              <p className="text-base truncate italic">{quiz.author.name}</p>
+              <Pill>{this.getQuizDifficulty(quiz)}</Pill>
             </div>
           </div>
           <div className="text-xs text-gray-400 py-8 px-4">

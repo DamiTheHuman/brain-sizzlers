@@ -8,6 +8,9 @@ import AuthRouter from "./lib/auth/router.js";
 import UserRouter from "./lib/users/router.js";
 import QuizRouter from "./lib/quizzes/router.js";
 import SubmissionRouter from "./lib/submissions/router.js";
+import dotenv from "dotenv";
+dotenv.config();
+
 const app = express(); //initialize server
 app.use(express.json()); //recive information in json
 app.use(
@@ -26,8 +29,9 @@ app.use(
     saveUninitialized: true,
   })
 );
+
 mongoose.connect(
-  "mongodb+srv://HCAdmin:HCAdmin@brainsizzlerscluster.m8qrg.mongodb.net/brainSizzlers?retryWrites=true&w=majority",
+  `mongodb+srv://HCAdmin:${process.env.DB_PASS}@brainsizzlerscluster.m8qrg.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`,
   { useNewUrlParser: true, useUnifiedTopology: true }
 );
 

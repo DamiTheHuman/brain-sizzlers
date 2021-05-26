@@ -1,13 +1,20 @@
 import React from "react";
 import { fetchQuizzes } from "../../actions/";
 import { Link } from "react-router-dom";
+import Modal from "../Modal";
 import Button from "../Button";
 import RenderQuizList from "../RenderQuizList";
 import LeaderBoards from "../Leaderboards";
+import GoogleAuthButton from "../GoogleAuthButton";
 
 class Home extends React.Component {
-  state = { quizzes: null };
+  state = { quizzes: null, renderRedirectMessage: false };
   componentDidMount() {
+    if (this.props.location.state) {
+      this.setState({
+        renderRedirectMessage: this.props.location.state.invalidLoginRedirect,
+      });
+    }
     this.fetchQuizzes();
   }
 
@@ -22,10 +29,46 @@ class Home extends React.Component {
     });
     this.setState({ quizzes: quizzes });
   };
+  renderRedirect = () => {
+    if (this.state.renderRedirectMessage) {
+      console.log("test");
+      return (
+        <Modal
+          title={
+            <h2 className="text-2xl font-bold">You Received A Message!</h2>
+          }
+          content={<p>You must be logged in to view this content</p>}
+          actions={
+            <div className="flex space-x-2 items-center">
+              <GoogleAuthButton />
+              <div
+                onClick={() => {
+                  this.setState({
+                    renderRedirectMessage: false,
+                  });
+                }}
+              >
+                <Button extraStyle="bg-danger py-2 text-secondary text-lg">
+                  Dismiss
+                </Button>
+              </div>
+            </div>
+          }
+          onDismiss={() => {
+            this.setState({
+              renderRedirectMessage: false,
+            });
+          }}
+        />
+      );
+    }
+    return null;
+  };
 
   render() {
     return (
       <div className="flex flex-col space-y-4">
+        {this.renderRedirect()}
         <div className="bg-gray-700 py-32">
           <div className="container text-white flex flex-col items-center">
             <div className="w-2/5">

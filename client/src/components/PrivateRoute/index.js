@@ -15,7 +15,14 @@ class PrivateRoute extends React.Component {
     const testing = false;
     //user is not logged in
     if (!this.props.users && testing === false) {
-      return <Redirect to="/" />;
+      return (
+        <Redirect
+          to={{
+            pathname: "/",
+            state: { invalidLoginRedirect: true },
+          }}
+        />
+      );
     } else {
       return (
         <Route
