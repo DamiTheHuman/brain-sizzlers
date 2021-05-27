@@ -1,6 +1,7 @@
 import React from "react";
 import { fetchQuizzes } from "../../actions/";
 import { Link } from "react-router-dom";
+import AlertCircleOutlineIcon from "mdi-react/AlertCircleOutlineIcon";
 import Modal from "../Modal";
 import Button from "../Button";
 import RenderQuizList from "../RenderQuizList";
@@ -31,15 +32,27 @@ class Home extends React.Component {
   };
   renderRedirect = () => {
     if (this.state.renderRedirectMessage) {
-      console.log("test");
       return (
         <Modal
           title={
             <h2 className="text-2xl font-bold">You Received A Message!</h2>
           }
-          content={<p>You must be logged in to view this content</p>}
+          content={
+            <div className="flex flex-col space-y-2">
+              <div className="self-center text-primary">
+                <AlertCircleOutlineIcon size={36} />
+              </div>
+              <h3 className="text-center text-xl font-semibold">
+                Something Went Wrong!
+              </h3>
+              <p>
+                The page you are trying to access requires you to be logged in
+                to view its content
+              </p>
+            </div>
+          }
           actions={
-            <div className="flex space-x-2 items-center">
+            <div className="flex space-x-2 items-center justify-center">
               <GoogleAuthButton />
               <div
                 onClick={() => {

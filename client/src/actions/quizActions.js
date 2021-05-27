@@ -60,19 +60,15 @@ export const fetchQuiz = async (quizName) => {
  * @returns
  */
 export const updateQuiz = async (quizName, data) => {
-  const request = await fetch(
-    `http://localhost:3001/quizzes/update/${quizName}`,
-    {
-      method: "put",
-      body: JSON.stringify({
-        name: quizName,
-        data: data,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-    }
-  );
-  const response = await request.json();
+  await fetch(`http://localhost:3001/quizzes/update/${quizName}`, {
+    method: "put",
+    body: JSON.stringify({
+      name: quizName,
+      data: data,
+    }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+  });
 };

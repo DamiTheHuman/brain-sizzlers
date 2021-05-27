@@ -62,6 +62,8 @@ class RenderQuizList extends React.Component {
   render() {
     if (!this.props.quizzes) {
       return <Loader />;
+    } else if (this.props.quizzes.length === 0) {
+      return <h3>No Quizzes Found</h3>;
     }
     return (
       <div className="flex flex-col space-y-8">{this.renderQuizList()}</div>

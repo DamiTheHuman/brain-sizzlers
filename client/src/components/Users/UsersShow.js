@@ -1,9 +1,12 @@
 import React from "react";
 import CircularSlider from "@fseehawer/react-circular-slider";
+import CrosshairsQuestionIcon from "mdi-react/CrosshairsQuestionIcon";
+import SummitIcon from "mdi-react/SummitIcon";
 import { fetchUser, fetchSubmissions, fetchQuizzes } from "../../actions/index";
 import Card from "../Card";
 import Loader from "../Loader";
 import { formatDateToMMDDYY } from "../../api/general";
+import RenderQuizList from "../RenderQuizList";
 /**
  * Displays a singular uses information
  */
@@ -36,6 +39,9 @@ class UsersShow extends React.Component {
    * @returns {JSX}
    */
   renderRecentSubmissions = () => {
+    if (this.state.submissions.length === 0) {
+      return <div className="py-4">No Submissions Made Yet</div>;
+    }
     return this.state.submissions.map((submission, index) => {
       return (
         <div className="flex justify-between border-b py-2" key={index}>
@@ -119,8 +125,8 @@ class UsersShow extends React.Component {
               body={
                 <div className="user-info">
                   <div className="flex justify-between border-b py-2">
-                    <div className="flex space-x-2">
-                      <p>💯</p>
+                    <div className="flex space-x-2 items-center">
+                      <SummitIcon size={24} />
                       <p>Points</p>
                     </div>
                     <div>
@@ -128,8 +134,8 @@ class UsersShow extends React.Component {
                     </div>
                   </div>
                   <div className="flex justify-between py-2">
-                    <div className="flex space-x-2">
-                      <p>❔</p>
+                    <div className="flex space-x-2 items-center">
+                      <CrosshairsQuestionIcon size={24} />
                       <p>Quizzes Made</p>
                     </div>
                     <div>
@@ -208,6 +214,18 @@ class UsersShow extends React.Component {
               body={
                 <div className="user-info">
                   {this.renderRecentSubmissions()}
+                </div>
+              }
+            />
+            <Card
+              header={
+                <h2 className="text-lg font-semibold">Recent Quizzes Made</h2>
+              }
+              body={
+                <div className="py-4">
+                  <RenderQuizList
+                    quizzes={this.state.user.quizzes.slice(0, 5)}
+                  />{" "}
                 </div>
               }
             />
