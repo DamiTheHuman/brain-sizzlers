@@ -107,10 +107,6 @@ th.text-left {
   text-align: left;
 }
 
-th.text-center {
-  text-align: center;
-}
-
 th.text-right {
   text-align: right;
 }
@@ -134,8 +130,18 @@ td.text-right {
 
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2; /* number of lines to show */
-  line-height: 1; /* fallback */
+  line-height: 1.5; /* fallback */
   max-height: 2; /* fallback */
+}
+.one-line-overflow {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1; /* number of lines to show */
+  line-height: 1.5; /* fallback */
+  max-height: 1; /* fallback */
 }
 
 /** Input styling*/

@@ -15,6 +15,14 @@ class UsersShow extends React.Component {
   componentDidMount() {
     this.fetchUserData();
   }
+  componentDidUpdate() {
+    //Updates the user when the user selects a different user to check
+    if (this.state.user) {
+      if (this.state.user.name !== this.props.match.params.name) {
+        this.fetchUserData();
+      }
+    }
+  }
   /**
    * Fetches the userdata from the database
    */
@@ -98,9 +106,9 @@ class UsersShow extends React.Component {
     }
     return (
       <div className="container py-4">
-        <div className="flex space-x-4">
-          {/**Left Side */}
-          <div className="w-1/3 flex flex-col space-y-4">
+        <div className="flex md:flex-row flex-col md:space-x-4 space-y-4 md:space-y-0">
+          {/**Left Side On Dekstop*/}
+          <div className="md:w-1/3 w-full flex flex-col space-y-4">
             {/**Basic user information */}
             <Card
               header="Basic Profile"
@@ -146,8 +154,8 @@ class UsersShow extends React.Component {
               }
             />
           </div>
-          <div className="w-2/3 flex flex-col space-y-4">
-            <div className="flex space-x-2">
+          <div className="md:w-2/3 w-full flex flex-col space-y-4">
+            <div className="flex md:flex-row flex-col md:space-x-4 space-y-4 md:space-y-0">
               <Card
                 body={
                   <div className="quizzes-solved flex justify-between items-center py-4">

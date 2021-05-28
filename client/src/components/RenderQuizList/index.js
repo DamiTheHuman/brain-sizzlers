@@ -30,24 +30,32 @@ class RenderQuizList extends React.Component {
       return (
         <Link
           to={`/quizzes/${quiz.name}`}
-          className="quiz-item flex bg-gray-100 border px-8 items-center 
+          className="quiz-item flex bg-gray-100 border lg:px-8 items-center 
           transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-105 hover:shadow-xl"
           key={index}
         >
-          <div className="border-r border-gray-400 py-8 px-4">
-            <div className="text-xl font-bold truncate">Quiz No {index}.</div>
-          </div>
-          <div className="flex flex-grow space-x-4 py-8 px-4 items-center">
-            <div className="flex flex-col space-y-2">
-              <h4 className="text-lg font-semibold">{quiz.name}</h4>
-              <p className="two-line-overflow">{quiz.description}</p>
+          <div className="border-r border-gray-400 py-8 lg:px-4 px-2">
+            <div className="lg:text-xl text-base font-bold truncate">
+              No {index}.
             </div>
-            <div className="flex-grow flex flex-col space-y-2">
-              <p className="text-base truncate italic">{quiz.author.name}</p>
+          </div>
+          <div className="flex flex-grow space-x-2 py-8 lg:px-4 px-2 items-center">
+            <div className="flex flex-col space-y-2 lg:flex-grow-0 flex-grow">
+              <h4 className="lg:text-lg text-sm font-semibold one-line-overflow">
+                {quiz.name}
+              </h4>
+              <div className="">
+                <p className="two-line-overflow">{quiz.description}</p>
+              </div>
+            </div>
+            <div className="lg:flex-grow flex-grow-0 flex flex-col space-y-2 lg:text-lg text-sm">
+              <p className="text-xs lg:text-base truncate italic">
+                {quiz.author.name}
+              </p>
               <Pill>{this.getQuizDifficulty(quiz)}</Pill>
             </div>
           </div>
-          <div className="text-xs text-gray-400 py-8 px-4">
+          <div className="hidden md:block  text-xs text-gray-400 py-8 xl:px-4 px-2 text-right">
             <p className="truncate">
               Created {formatDateToMMDDYY(quiz.createdAt)}
             </p>
@@ -66,7 +74,9 @@ class RenderQuizList extends React.Component {
       return <h3>No Quizzes Found</h3>;
     }
     return (
-      <div className="flex flex-col space-y-8">{this.renderQuizList()}</div>
+      <div className="flex flex-col space-y-8 max-w-full">
+        {this.renderQuizList()}
+      </div>
     );
   }
 }

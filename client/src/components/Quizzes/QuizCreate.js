@@ -244,7 +244,7 @@ class QuizCreate extends React.Component {
     return (
       <div className="container py-4 text-lg">
         <div className="flex flex-col items-center space-y-2 w-full py-8 ">
-          <div className="steps w-5/12">
+          <div className="steps md:w-5/12 w-full">
             <h2 className="text-2xl font-semibold text-2xl text-center mb-4">
               Create Quiz
             </h2>
@@ -257,7 +257,7 @@ class QuizCreate extends React.Component {
             </div>
           </div>
 
-          <div className="w-6/12 flex flex-col space-y-2 border rounded border-2 border-gray-400 shadow-2xl p-8">
+          <div className="md:w-6/12 w-full flex flex-col space-y-2 border rounded border-2 border-gray-400 shadow-2xl p-8">
             <h3 className="text-xl font-bold text-center">
               {this.getStepHelperText()}
             </h3>

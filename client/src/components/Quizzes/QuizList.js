@@ -25,14 +25,14 @@ class QuizList extends React.Component {
     }
     return (
       <div className="container quiz-list py-8">
-        <div className="flex space-x-8">
+        <div className="flex md:flex-row flex-col md:space-x-8 space-y-2">
           <div className="filter">
             <h3 className="text-lg font-bold text-center">
               {this.state.quizzes.length}
+              <p>Quiz(s) Found</p>
             </h3>
-            <p>Quiz(s) Found</p>
           </div>
-          <div className="flex-grow  px-8 flex flex-col space-y-4">
+          <div className="flex-grow md:px-8 px-2 flex flex-col space-y-4">
             {/**Search Bar */}
             <div className="flex space-x-4 items-center quiz-data border rounded mb-4 px-2">
               <div className="flex space-x-2">O</div>

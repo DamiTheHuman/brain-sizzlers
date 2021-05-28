@@ -30,6 +30,10 @@ class Home extends React.Component {
     });
     this.setState({ quizzes: quizzes });
   };
+  /**
+   * Renders the redirect prompt for the modal
+   * @returns {JSX}
+   */
   renderRedirect = () => {
     if (this.state.renderRedirectMessage) {
       return (
@@ -82,14 +86,14 @@ class Home extends React.Component {
     return (
       <div className="flex flex-col space-y-4">
         {this.renderRedirect()}
-        <div className="bg-gray-700 py-32">
+        <div className="bg-gray-700 lg:py-32 py-16">
           <div className="container text-white flex flex-col items-center">
-            <div className="w-2/5">
-              <h1 className="text-6xl font-bold text-center">
+            <div className="lg:w-3/5 xl:w-2/5 w-full">
+              <h1 className="lg:text-6xl text-4xl font-bold text-center">
                 Brain Sizzlers!
               </h1>
               <div className="flex flex-col py-4">
-                <p className="font-semibold text-xl mb-4">
+                <p className="font-semibold lg:text-lg text-base mb-4">
                   Want to test your knoweledge on questions others have set on
                   the internet? You have to come to the right place! Try and
                   climb the leader boards with some sizzlers from across the
@@ -97,14 +101,14 @@ class Home extends React.Component {
                 </p>
                 <div className="flex items-center justify-between">
                   <Link to="quizzes/new">
-                    <Button extraStyle="bg-secondary text-black text-lg">
+                    <Button extraStyle="bg-secondary text-black lg:text-lg sm:text-base">
                       Create your challenge
                     </Button>
                   </Link>
-                  <p className="font-semibold bg-secondary h-1 flex-grow"></p>
-                  <p className="font-semibold bg-black h-1 flex-grow"></p>
+                  <p className="hidden lg:block font-semibold bg-secondary h-1 flex-grow"></p>
+                  <p className="hidden lg:block font-semibold bg-black h-1 flex-grow"></p>
                   <Link to="quizzes">
-                    <Button extraStyle="bg-black text-secondary text-lg">
+                    <Button extraStyle="bg-black text-secondary lg:text-lg text-base">
                       Test your knowledge
                     </Button>
                   </Link>
@@ -114,12 +118,16 @@ class Home extends React.Component {
           </div>
         </div>
         <div className="container">
-          <h2 className="text-4xl text-center font-bold">Popular Quizzes</h2>
+          <h2 className="lg:text-4xl text-2xl text-center font-bold">
+            Popular Quizzes
+          </h2>
           {/* Load popular quizzes*/}
           <div className="py-8">
             <RenderQuizList quizzes={this.state.quizzes} />
           </div>
-          <h2 className="text-4xl text-center font-bold">Leader Boards</h2>
+          <h2 className="lg:text-4xl text-2xl text-center font-bold">
+            Leader Boards
+          </h2>
           {/* Load popular quizzes*/}
           <div className="py-8">
             <LeaderBoards />

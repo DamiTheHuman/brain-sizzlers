@@ -25,25 +25,23 @@ class LeaderBoards extends React.Component {
       return (
         <div className="flex space-x-4 py-2 items-center" key={index}>
           <div>
-            <h3 className="text-xl font-bold">{index + 1}.</h3>
+            <h3 className="text-lg font-bold">{index + 1}.</h3>
           </div>
-          <div>
-            <img
-              src={user.picture}
-              className="rounded-full w-8/12"
-              alt={`${user.name}-thumbnail`}
-            />
-          </div>
+          <img
+            src={user.picture}
+            className="rounded-full md:w-16 w-12 "
+            alt={`${user.name}-thumbnail`}
+          />
           <div className="flex-grow flex justify-between items-center border-t border-b py-4">
             <div className="flex flex-col space-y-2">
-              <Link to={`/users/${user.name}`} className="text-xl text-primary">
+              <Link to={`/users/${user.name}`} className="text-lg text-primary">
                 {user.name}
               </Link>
               <p className="text-gray-300">{user.points} Points</p>
             </div>
           </div>
           <Link to={`/users/${user.name}`}>
-            <Button>View Profile</Button>
+            <Button>View </Button>
           </Link>
         </div>
       );
@@ -53,7 +51,7 @@ class LeaderBoards extends React.Component {
     if (!this.state.users) {
       return <Loader />;
     }
-    return <div className="leader-boards px-32">{this.renderList()}</div>;
+    return <div className="leader-boards lg:px-32">{this.renderList()}</div>;
   }
 }
 

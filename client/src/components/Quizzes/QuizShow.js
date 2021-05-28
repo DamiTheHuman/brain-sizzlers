@@ -19,6 +19,14 @@ class QuizShow extends React.Component {
   componentDidMount() {
     this.fetchQuiz();
   }
+  componentDidUpdate() {
+    //Updates the quiz when the user selects a different quiz
+    if (this.state.user) {
+      if (this.state.quiz.name !== this.props.match.params.name) {
+        this.fetchUserData();
+      }
+    }
+  }
   /**
    * Fetches a singular quiz based on the current route
    */
@@ -37,7 +45,7 @@ class QuizShow extends React.Component {
   renderTabContent = () => {
     if (this.state.currentTab === 0) {
       return (
-        <div className="quiz-description flex flex-col space-y-4 p-4 w-1/2 border-r ">
+        <React.Fragment>
           <h3 className="font-semibold text-2xl px-2">
             Quiz 0. {this.state.quiz.name}
           </h3>
@@ -48,17 +56,17 @@ class QuizShow extends React.Component {
             Author - {""}
             <span className="font-semibold">{this.state.quiz.author.name}</span>
           </p>
-        </div>
+        </React.Fragment>
       );
     } else {
       return (
-        <div className="quiz-description flex flex-col space-y-4 p-4 w-1/2 border-r ">
+        <React.Fragment>
           <Feedback
             feedback={this.state.feedback}
             quiz={this.state.quiz}
             answers={this.state.answers}
           />
-        </div>
+        </React.Fragment>
       );
     }
   };
@@ -267,9 +275,11 @@ class QuizShow extends React.Component {
             </div>
           </div>
         </div>
-        <div className="flex h-full container">
-          {this.renderTabContent()}
-          <div className="slide content flex flex-col justify-center space-y-4 p-4  w-1/2 px-2 border-l">
+        <div className="flex flex-col md:flex-row h-full container">
+          <div className="quiz-description flex flex-col space-y-4 p-4 md:w-1/2 w-full md:border-r border-0">
+            {this.renderTabContent()}
+          </div>
+          <div className="slide content flex flex-col justify-center space-y-4 p-4  md:w-1/2 w-full px-2 md:border-l border-0">
             {this.renderSlide()}
           </div>
         </div>

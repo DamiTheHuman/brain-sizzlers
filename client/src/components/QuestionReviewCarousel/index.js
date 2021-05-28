@@ -1,5 +1,7 @@
 import React from "react";
 import AwesomeSlider from "react-awesome-slider";
+import CloseCircleIcon from "mdi-react/CloseCircleIcon";
+import CheckCircleIcon from "mdi-react/CheckCircleIcon";
 import "react-awesome-slider/dist/styles.css";
 
 const QuestionReviewCarousel = ({ questions }) => {
@@ -13,14 +15,27 @@ const QuestionReviewCarousel = ({ questions }) => {
     const renderOptions = question.options.map((option, optionKey) => {
       return (
         <tr className="quiz-option bg-gray-200" key={optionKey}>
-          <td>{optionKey + 1}</td>
-          <td>{option.option}</td>
-          <td>{option.isAnswer ? "IsAnswer" : "Not Answer"}</td>
+          <td className="text-center">{optionKey + 1}</td>
+          <td className="px-2 two-line-overflow">{option.option}</td>
+          <td className="px-2">
+            {option.isAnswer ? (
+              <div className="flex justify-center text-success">
+                <CheckCircleIcon size={24} />
+              </div>
+            ) : (
+              <div className="flex justify-center text-danger">
+                <CloseCircleIcon size={24} />
+              </div>
+            )}
+          </td>
         </tr>
       );
     });
     return (
-      <div className="bg-white w-full h-full border px-16 py-4" key={key}>
+      <div
+        className="bg-white w-full h-full border md:px-16 px-2 py-4"
+        key={key}
+      >
         <h3 className="text-center font-semibold text-xl">
           Question {key + 1}
         </h3>
@@ -30,9 +45,9 @@ const QuestionReviewCarousel = ({ questions }) => {
             <table className="w-full border p-2">
               <thead>
                 <tr className="bg-white">
-                  <th className="text-center px-2">#</th>
-                  <th className="text-left">Question</th>
-                  <th className="text-left">Answer</th>
+                  <th className="italic text-center px-2">#</th>
+                  <th className="italic text-left px-2">Question</th>
+                  <th className="italic text-left px-2">Answer</th>
                 </tr>
               </thead>
               <tbody>{renderOptions}</tbody>
@@ -40,7 +55,7 @@ const QuestionReviewCarousel = ({ questions }) => {
           </div>
         </div>
         <p className="mt-4">
-          Please esnure to set appropriate questions for all ages and supply
+          Please ensure to set appropriate questions for all ages and supply
           valid answers for your quizzes as integrity is all up to you.
         </p>
       </div>
