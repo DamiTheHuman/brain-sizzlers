@@ -1,9 +1,12 @@
 import React from "react";
+import _ from "lodash";
 import { connect } from "react-redux";
 import { loginUser, logoutUser, fetchSession } from "../../actions";
 import HeaderLink from "./HeaderLink";
 import GoogleAuthButton from "../GoogleAuthButton";
 import HeaderLogo from "../../assets/logo_no_text_inverted.png";
+import { Link } from "react-router-dom";
+import Loader from "../Loader";
 
 class Header extends React.Component {
   componentDidMount() {
@@ -25,6 +28,9 @@ class Header extends React.Component {
    * @returns object
    */
   renderLogin = () => {
+    if (_.isEmpty(this.props.users)) {
+      return <Loader />;
+    }
     if (this.props.users) {
       return (
         <React.Fragment>
@@ -36,7 +42,13 @@ class Header extends React.Component {
           >
             <HeaderLink>Logout</HeaderLink>
           </button>
-          <p>Hi {this.props.users.name}!</p>
+          <Link to={`/users/${this.props.users.name}`} className="p-4">
+            <img
+              src={this.props.users.picture}
+              className="rounded-full w-12  border-gray-600 hover:border-primary border-2 p-0.5"
+              alt={`${this.props.users.name}`}
+            />
+          </Link>
         </React.Fragment>
       );
     } else {

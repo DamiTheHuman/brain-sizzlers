@@ -112,7 +112,7 @@ class UsersShow extends React.Component {
                     alt={`${this.state.user.name}`}
                   />
                   <div>
-                    <div className="font-semibold">UserName</div>
+                    <div className="font-semibold">User Name</div>
                     <div className="text-gray-400">
                       Joined on {formatDateToMMDDYY(this.state.user.createdAt)}
                     </div>
@@ -222,7 +222,7 @@ class UsersShow extends React.Component {
                 <h2 className="text-lg font-semibold">Recent Quizzes Made</h2>
               }
               body={
-                <div className="py-4">
+                <div className="py-4 px-4">
                   <RenderQuizList
                     quizzes={this.state.user.quizzes.slice(0, 5)}
                   />{" "}

@@ -36,13 +36,13 @@ class LeaderBoards extends React.Component {
           </div>
           <div className="flex-grow flex justify-between items-center border-t border-b py-4">
             <div className="flex flex-col space-y-2">
-              <Link to={`users/${user.name}`} className="text-xl text-primary">
+              <Link to={`/users/${user.name}`} className="text-xl text-primary">
                 {user.name}
               </Link>
               <p className="text-gray-300">{user.points} Points</p>
             </div>
           </div>
-          <Link to={`users/${user.name}`}>
+          <Link to={`/users/${user.name}`}>
             <Button>View Profile</Button>
           </Link>
         </div>

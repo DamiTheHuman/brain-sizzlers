@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
  */
 const HeaderLink = ({ to, children }) => {
   return (
-    <div className="header-link px-2 hover:bg-primary hover:text-white h-full flex items-center">
+    <div className="header-link px-2 hover:text-primary  h-full flex items-center">
       <Link to={to}>{children}</Link>
     </div>
   );
