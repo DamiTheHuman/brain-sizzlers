@@ -1,4 +1,5 @@
 import { objectToGetRequest } from "../api/general";
+import server from "../api/server";
 
 /**
  * Sends the data from the user submission to the server to be saved
@@ -6,16 +7,11 @@ import { objectToGetRequest } from "../api/general";
  * @returns
  */
 export const createSubmission = async (submission) => {
-  await fetch("http://localhost:3001/submissions/create", {
-    method: "POST",
-    body: JSON.stringify({
-      submission: submission,
-    }),
-    headers: {
-      "Content-Type": "application/json",
-    },
-    credentials: "include",
-  });
+  await server
+    .post("/submissions/create", { submission: submission })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 /**
  * Fetches submissions based on the set query where available
@@ -27,13 +23,9 @@ export const fetchSubmissions = async (query = {}) => {
   if (query) {
     getQuery = objectToGetRequest(query);
   }
-  const request = await fetch(`http://localhost:3001/submissions/${getQuery}`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    credentials: "include",
+  const request = await server.get(`/submissions${getQuery}`).catch((err) => {
+    console.log(err);
+    return null;
   });
-  const response = await request.json();
-  return response.data;
+  return request.data;
 };

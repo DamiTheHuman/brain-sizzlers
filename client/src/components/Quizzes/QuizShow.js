@@ -54,7 +54,7 @@ class QuizShow extends React.Component {
 
           <hr />
           <div
-            className="self-center"
+            className="self-center block md:hidden"
             onClick={() => {
               this.setShowDescription(true);
             }}

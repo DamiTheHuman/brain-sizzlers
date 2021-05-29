@@ -8,7 +8,7 @@ export default {
    */
   sessionLoginUser: async (req, res) => {
     res.status(201);
-    res.status(200).send({ status: 0, data: req.user });
+    res.send(req.user);
   },
   /**
    * Saves a new user or logs in a existing user
@@ -40,7 +40,7 @@ export default {
         req.session.test = "data";
         req.session.save();
         res.status(201);
-        res.json({ data: newUser }); //send the user data back
+        res.send(newUser); //send the user data back
       }
     );
   },

@@ -42,6 +42,6 @@ export default {
       .populate(["quiz", "user"])
       .exec();
     res.status(201);
-    res.status(200).send({ status: 0, data: submissions });
+    res.status(200).send(submissions);
   },
 };

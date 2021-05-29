@@ -1,5 +1,5 @@
 import { objectToGetRequest } from "../api/general";
-
+import server from "../api/server";
 /**
  * Fetches a list of users based on the query passed
  * @param {String} query the custom query to be run against the DB
@@ -10,32 +10,24 @@ export const fetchUsers = async (query = {}) => {
   if (query) {
     getQuery = objectToGetRequest(query);
   }
-  const request = await fetch(`http://localhost:3001/users${getQuery}`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    credentials: "include",
+  const request = await server.get(`/users${getQuery}`).catch((err) => {
+    console.log(err);
+    return null;
   });
-  const response = await request.json();
-  return response;
+  return request.data;
 };
 /**
- * Sends a request to the server to fetch quiz
- * @param {String} quizName the quiz to search for
+ * Sends a request to the server to fetch user
+ * @param {String} userName the user to search for
  * @returns {Object} the response from the server
  */
-export const fetchUser = async (quizName) => {
-  if (!quizName) {
+export const fetchUser = async (userName) => {
+  if (!userName) {
     return null;
   }
-  const request = await fetch(`http://localhost:3001/users/${quizName}`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    credentials: "include",
+  const request = await server.get(`/users/${userName}`).catch((err) => {
+    console.log(err);
+    return null;
   });
-  const response = await request.json();
-  return response.data;
+  return request.data;
 };

@@ -19,7 +19,7 @@ export default {
       .limit(parseInt(limit))
       .exec();
     res.status(201);
-    res.status(200).send({ status: 0, data: users });
+    res.status(200).send(users);
   },
   /**
    * Fetches a singular user from the database and returns into the user
@@ -29,7 +29,8 @@ export default {
     if (user) {
       const quizzes = await QuizModel.find({ author: user.id }); //Get all the quizzes the user has made
       user.quizzes = quizzes;
-      res.status(200).send({ status: 0, data: user });
+      res.status(201);
+      res.status(200).send(user);
     } else {
       res.status(404);
     }

@@ -2,6 +2,7 @@ import React from "react";
 import { fetchQuizzes } from "../../actions/index";
 import Loader from "../Loader";
 import RenderQuizList from "../RenderQuizList";
+import SearchIcon from "mdi-react/SearchIcon";
 
 class QuizList extends React.Component {
   state = { quizzes: null };
@@ -35,7 +36,9 @@ class QuizList extends React.Component {
           <div className="flex-grow md:px-8 px-2 flex flex-col space-y-4">
             {/**Search Bar */}
             <div className="flex space-x-4 items-center quiz-data border rounded mb-4 px-2">
-              <div className="flex space-x-2">O</div>
+              <div className="flex space-x-2">
+                <SearchIcon size={24} />
+              </div>
               <input className="flex-grow text-lg" placeholder="Search" />
             </div>
             {/**Content */}

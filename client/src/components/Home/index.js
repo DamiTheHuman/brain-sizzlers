@@ -13,9 +13,14 @@ class Home extends React.Component {
   state = { quizzes: null, renderRedirectMessage: false };
   componentDidMount() {
     if (this.props.location.state) {
-      this.setState({
-        renderRedirectMessage: this.props.location.state.invalidLoginRedirect,
-      });
+      this.setState(
+        {
+          renderRedirectMessage: this.props.location.state.invalidLoginRedirect,
+        },
+        () => {
+          this.props.location.state = {};
+        }
+      );
     }
     this.fetchQuizzes();
   }

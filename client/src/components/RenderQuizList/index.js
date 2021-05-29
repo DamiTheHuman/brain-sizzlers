@@ -40,7 +40,7 @@ class RenderQuizList extends React.Component {
             </div>
           </div>
           <div className="flex flex-grow space-x-2 py-8 lg:px-4 px-2 items-center">
-            <div className="flex flex-col space-y-2 lg:flex-grow-0 flex-grow">
+            <div className="flex flex-col space-y-2 flex-grow">
               <h4 className="lg:text-lg text-sm font-semibold one-line-overflow">
                 {quiz.name}
               </h4>
@@ -48,7 +48,7 @@ class RenderQuizList extends React.Component {
                 <p className="two-line-overflow">{quiz.description}</p>
               </div>
             </div>
-            <div className="lg:flex-grow flex-grow-0 flex flex-col space-y-2 lg:text-lg text-sm">
+            <div className="flex-grow-0 flex flex-col space-y-2 lg:text-lg text-sm">
               <p className="text-xs lg:text-base truncate italic">
                 {quiz.author.name}
               </p>

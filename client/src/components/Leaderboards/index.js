@@ -13,12 +13,12 @@ class LeaderBoards extends React.Component {
    * Fetches the users with the highest amount of points from the database
    */
   fetchUsers = async () => {
-    const response = await fetchUsers({
+    const users = await fetchUsers({
       limit: 5,
       sort: "points",
       order: "desc",
     });
-    this.setState({ users: response.data });
+    this.setState({ users: users });
   };
   renderList = () => {
     return this.state.users.map((user, index) => {

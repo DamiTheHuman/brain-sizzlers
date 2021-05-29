@@ -44,7 +44,7 @@ export default {
       .populate("author")
       .exec();
     res.status(201);
-    res.status(200).send({ status: 0, data: quizzes });
+    res.send(quizzes);
   },
   /**
    * Fetches the specified quiz from the DB
@@ -54,7 +54,8 @@ export default {
       .populate("author")
       .exec();
     if (quiz) {
-      res.status(200).send({ status: 0, data: quiz });
+      res.status(201);
+      res.send(quiz);
     } else {
       res.status(404);
     }
