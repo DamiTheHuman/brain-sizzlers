@@ -13,7 +13,7 @@ const Modal = (props) => {
         }}
         className="h-screen flex flex-col justify-center"
       >
-        <div className="modal-content flex justify-center space-x-2">
+        <div className="modal-content flex justify-center space-x-2 md:px-0 px-4">
           <div className="bg-white rounded w-96 px-4">
             <div className="header py-2">
               <div className="flex justify-between items-center">
@@ -24,7 +24,7 @@ const Modal = (props) => {
             <div className="content py-2">{props.content}</div>
             <div className=" actions py-2">{props.actions}</div>
           </div>
-          <div className="self-start">
+          <div className="self-start hidden md:block">
             <button
               className="text-white px-1.5 py-1 hover:bg-danger bg-primary rounded"
               onClick={props.onDismiss}

@@ -1,5 +1,4 @@
 import React from "react";
-import _ from "lodash";
 import { connect } from "react-redux";
 import { loginUser, logoutUser, fetchSession } from "../../actions";
 import HeaderLink from "./HeaderLink";
@@ -28,7 +27,7 @@ class Header extends React.Component {
    * @returns object
    */
   renderLogin = () => {
-    if (_.isEmpty(this.props.users)) {
+    if (JSON.stringify(this.props.users) === "{}") {
       return <Loader />;
     }
     if (this.props.users) {

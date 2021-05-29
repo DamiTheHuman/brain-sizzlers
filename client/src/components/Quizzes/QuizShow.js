@@ -1,4 +1,5 @@
 import React from "react";
+import Modal from "../Modal";
 import { fetchQuiz, updateQuiz, createSubmission } from "../../actions/index";
 import Button from "../Button";
 import Feedback from "../Feedback";
@@ -15,6 +16,7 @@ class QuizShow extends React.Component {
     answers: [],
     testCompleted: false,
     feedback: {},
+    showDescription: false,
   };
   componentDidMount() {
     this.fetchQuiz();
@@ -49,13 +51,27 @@ class QuizShow extends React.Component {
           <h3 className="font-semibold text-2xl px-2">
             Quiz 0. {this.state.quiz.name}
           </h3>
+
           <hr />
-          <p>{this.state.quiz.description}</p>
-          <hr />
-          <p>
-            Author - {""}
-            <span className="font-semibold">{this.state.quiz.author.name}</span>
-          </p>
+          <div
+            className="self-center"
+            onClick={() => {
+              this.setShowDescription(true);
+            }}
+          >
+            <Button>Show Description</Button>
+          </div>
+          {/**Renders question always on larger screens */}
+          <div className="hidden md:block">
+            <p>{this.state.quiz.description}</p>
+            <hr />
+            <p>
+              Author - {""}
+              <span className="font-semibold">
+                {this.state.quiz.author.name}
+              </span>
+            </p>
+          </div>
         </React.Fragment>
       );
     } else {
@@ -79,7 +95,7 @@ class QuizShow extends React.Component {
         <div className="quiz-data flex items-center">
           <div className="flex items-center flex-col space-y-2 px-8">
             <h2 className="font-semibold text-2xl">Are you ready?</h2>
-            <p className="">
+            <p>
               Ensure you are appropriately prepared for the questions that are
               about to unfold and remember. The questions could be about
               anything. By anyone so dont think too hard on failure or too
@@ -115,7 +131,7 @@ class QuizShow extends React.Component {
           </div>
         </div>
       );
-    } else {
+    } else if (this.state.currentTab !== 1) {
       return (
         <div className="quiz-data flex flex-col items-center space-y-2">
           <div className="flex items-center px-8">
@@ -244,12 +260,63 @@ class QuizShow extends React.Component {
       return "bg-gray-200 h-full py-3 px-2 text-gray-700 border-r border-gray-300 cursor-pointer";
     }
   };
+  /**
+   * Sets the value for show description where needed
+   * @param {Boolean} value the new value for show description
+   */
+  setShowDescription = (value) => {
+    this.setState({ showDescription: value });
+  };
+  /**
+   * Renders modal with JSX data on smaller screens
+   */
+  renderModal = () => {
+    if (this.state.showDescription) {
+      return (
+        <Modal
+          title={<h2 className="text-2xl font-bold">Quiz Description</h2>}
+          content={
+            <div className="flex items-center flex-col space-y-2 px-4">
+              <div className="h-64 overflow-scroll border rounded p-2 border-black">
+                <p>{this.state.quiz.description}</p>
+              </div>
+              <hr />
+              <p>
+                Author - {""}
+                <span className="font-semibold">
+                  {this.state.quiz.author.name}
+                </span>
+              </p>
+            </div>
+          }
+          actions={
+            <div className="flex space-x-2 items-center justify-center">
+              <div
+                onClick={() => {
+                  this.setShowDescription(false);
+                }}
+              >
+                <Button extraStyle="bg-danger py-2 text-secondary text-lg">
+                  Dismiss
+                </Button>
+              </div>
+            </div>
+          }
+          onDismiss={() => {
+            this.setShowDescription(false);
+          }}
+        />
+      );
+    }
+    return null;
+  };
   render() {
     if (!this.state.quiz) {
       return <Loader />;
     }
     return (
       <div className="quiz-show h-full">
+        {this.renderModal()}
         <div className="border-b">
           <div className="flex text-white items-center bg-gray-200 text-sm">
             <div

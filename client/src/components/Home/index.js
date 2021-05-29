@@ -7,6 +7,7 @@ import Button from "../Button";
 import RenderQuizList from "../RenderQuizList";
 import LeaderBoards from "../Leaderboards";
 import GoogleAuthButton from "../GoogleAuthButton";
+import "./index.css";
 
 class Home extends React.Component {
   state = { quizzes: null, renderRedirectMessage: false };
@@ -39,14 +40,16 @@ class Home extends React.Component {
       return (
         <Modal
           title={
-            <h2 className="text-2xl font-bold">You Received A Message!</h2>
+            <h2 className="md:text-2xl text-xl  font-bold">
+              You Received A Message!
+            </h2>
           }
           content={
             <div className="flex flex-col space-y-2">
               <div className="self-center text-primary">
                 <AlertCircleOutlineIcon size={36} />
               </div>
-              <h3 className="text-center text-xl font-semibold">
+              <h3 className="text-center md:text-xl text-lg font-semibold">
                 Something Went Wrong!
               </h3>
               <p>
@@ -86,7 +89,7 @@ class Home extends React.Component {
     return (
       <div className="flex flex-col space-y-4">
         {this.renderRedirect()}
-        <div className="bg-gray-700 lg:py-32 py-16">
+        <div className="hero lg:py-32 py-16">
           <div className="container text-white flex flex-col items-center">
             <div className="lg:w-3/5 xl:w-2/5 w-full">
               <h1 className="lg:text-6xl text-4xl font-bold text-center">
