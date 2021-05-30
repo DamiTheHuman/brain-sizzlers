@@ -119,10 +119,17 @@ class QuizCreate extends React.Component {
     if (!this.state.name) {
       errorMessages.quizName = "Please provide a name for the quiz";
       errorCount++;
+    } else if (this.state.name.trim().length <= 16) {
+      errorMessages.quizName = "Please provide a longer title for your quiz";
+      errorCount++;
     }
     if (!this.state.description) {
       errorMessages.quizDescription =
         "Please provide a description for the quiz";
+      errorCount++;
+    } else if (this.state.description.trim().length <= 150) {
+      errorMessages.quizDescription =
+        "Please provide a description with a length of more than 150 characters";
       errorCount++;
     }
     this.setState({

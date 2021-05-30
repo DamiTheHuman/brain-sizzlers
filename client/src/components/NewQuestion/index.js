@@ -118,7 +118,12 @@ class NewQuestion extends React.Component {
 
     //No Question name passed
     if (!this.state.question.description) {
-      errorMessages.noQuestion = "Please provide a value for your question";
+      errorMessages.noQuestion =
+        "Please provide a value for the question description";
+      errorCount++;
+    } else if (this.state.question.description.trim().length <= 24) {
+      errorMessages.noQuestion =
+        "Please provide a description with a length of more than 24 characters";
       errorCount++;
     }
     //Check if any of the fields are null
