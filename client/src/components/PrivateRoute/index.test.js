@@ -7,7 +7,7 @@ import thunk from "redux-thunk";
 import { createStore, applyMiddleware } from "redux";
 import reducer from "../../reducers";
 import PrivateRoute from "./index";
-import HeaderLink from "../Header/HeaderLink";
+import HeaderLink from "../HeaderLink";
 
 const renderTest = () => {
   const store = createStore(reducer, applyMiddleware(thunk));
