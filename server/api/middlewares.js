@@ -3,10 +3,13 @@ import UserModel from "../lib/users/model.js";
 export default {
   loginRequired: async (req, res, next) => {
     const path = req.baseUrl + (req.path === "/" ? "" : req.path); //Ensures it doenst end with a "/"
+
     //If the user is attempting to login do nothing
     if (req.method === "POST" && path === "/auth/login") {
       return next();
     }
+    console.log(req.session.userId);
+    console.log("---------");
     //Check if the user is logged in
     if (req.session.userId) {
       //Check if user exists

@@ -1,4 +1,4 @@
-import Controller from "./Controller.js";
+import Controller from "./controller.js";
 import { createRequire } from "module";
 const require = createRequire(import.meta.url);
 const router = require("express").Router();

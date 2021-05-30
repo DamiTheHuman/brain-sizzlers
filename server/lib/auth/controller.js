@@ -37,10 +37,11 @@ export default {
       function (err, doc) {
         if (err) return res.send(500, { error: err });
         req.session.userId = doc._id;
-        req.session.test = "data";
-        req.session.save();
-        res.status(201);
-        res.send(newUser); //send the user data back
+        req.session.save(() => {
+          console.log(req.session.userId);
+          res.status(201);
+          res.send(newUser); //send the user data back
+        });
       }
     );
   },
