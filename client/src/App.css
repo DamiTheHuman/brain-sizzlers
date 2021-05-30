@@ -20,6 +20,12 @@
     width: 1170px;
   }
 }
+/** Generic Styles */
+.center-y {
+  position: absolute;
+  top: 50%;
+  transform: translate(0%, -50%);
+}
 
 /** Generic table styling*/
 /*** Table Styles **/

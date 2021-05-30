@@ -6,19 +6,19 @@ import Modal from "../Modal";
 import Button from "../Button";
 import RenderQuizList from "../RenderQuizList";
 import LeaderBoards from "../Leaderboards";
-import GoogleAuthButton from "../GoogleAuthButton";
 import "./index.css";
 
 class Home extends React.Component {
   state = { quizzes: null, renderRedirectMessage: false };
   componentDidMount() {
-    if (this.props.location.state) {
+    const { location, history } = this.props;
+    if (location.state) {
       this.setState(
         {
-          renderRedirectMessage: this.props.location.state.invalidLoginRedirect,
+          renderRedirectMessage: location.state.invalidLoginRedirect,
         },
         () => {
-          this.props.location.state = {};
+          history.replace();
         }
       );
     }
@@ -65,7 +65,6 @@ class Home extends React.Component {
           }
           actions={
             <div className="flex space-x-2 items-center justify-center">
-              <GoogleAuthButton />
               <div
                 onClick={() => {
                   this.setState({
@@ -114,9 +113,9 @@ class Home extends React.Component {
                     </Button>
                   </Link>
                   <p className="hidden lg:block font-semibold bg-secondary h-1 flex-grow"></p>
-                  <p className="hidden lg:block font-semibold bg-black h-1 flex-grow"></p>
+                  <p className="hidden lg:block font-semibold bg-primary h-1 flex-grow"></p>
                   <Link to="quizzes">
-                    <Button extraStyle="bg-black text-secondary lg:text-lg text-base">
+                    <Button extraStyle="bg-primary text-secondary lg:text-lg text-base">
                       Test your knowledge
                     </Button>
                   </Link>

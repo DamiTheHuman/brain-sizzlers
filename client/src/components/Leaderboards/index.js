@@ -49,7 +49,7 @@ class LeaderBoards extends React.Component {
   };
   render() {
     if (!this.state.users) {
-      return <Loader />;
+      return <Loader size={48} />;
     }
     return <div className="leader-boards lg:px-32">{this.renderList()}</div>;
   }

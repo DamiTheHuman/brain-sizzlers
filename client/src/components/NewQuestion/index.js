@@ -1,6 +1,6 @@
 import React from "react";
 import _ from "lodash";
-import Option from "./Option";
+import NewOption from "../NewOption";
 import Question from "../../models/question";
 import ErrorMessage from "../ErrorMessage";
 import Button from "../Button";
@@ -96,7 +96,7 @@ class NewQuestion extends React.Component {
       };
 
       return (
-        <Option
+        <NewOption
           key={index}
           index={optionId}
           value={this.state.question.options[optionId]}

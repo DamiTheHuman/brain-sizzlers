@@ -1,5 +1,5 @@
 import React from "react";
-import Option from "./Option";
+import Option from "../Option";
 import Button from "../Button";
 
 class Question extends React.Component {

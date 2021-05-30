@@ -102,7 +102,7 @@ class UsersShow extends React.Component {
   };
   render() {
     if (!this.state.user) {
-      return <Loader />;
+      return <Loader size={128} extraStyle="w-full center-y" />;
     }
     return (
       <div className="container py-4">

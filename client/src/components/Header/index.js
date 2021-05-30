@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { loginUser, logoutUser, fetchSession } from "../../actions";
-import HeaderLink from "./HeaderLink";
+import HeaderLink from "../HeaderLink";
 import GoogleAuthButton from "../GoogleAuthButton";
 import HeaderLogo from "../../assets/logo_no_text_inverted.png";
 import { Link } from "react-router-dom";
@@ -69,7 +69,9 @@ class Header extends React.Component {
           <div className="flex relative h-full items-center px-2">
             <HeaderLink to="/">Home</HeaderLink>
             <HeaderLink to="/">About</HeaderLink>
-            {this.renderLogin()}
+            <div className="px-2 h-full flex items-center">
+              {this.renderLogin()}
+            </div>
           </div>
         </div>
       </header>
