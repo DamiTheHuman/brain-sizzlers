@@ -8,8 +8,6 @@ export default {
     if (req.method === "POST" && path === "/auth/login") {
       return next();
     }
-    console.log(req.session.userId);
-    console.log("---------");
     //Check if the user is logged in
     if (req.session.userId) {
       //Check if user exists

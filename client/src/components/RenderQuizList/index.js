@@ -71,7 +71,9 @@ class RenderQuizList extends React.Component {
     if (!this.props.quizzes) {
       return <Loader size={48} />;
     } else if (this.props.quizzes.length === 0) {
-      return <h3>No Quizzes Found</h3>;
+      return (
+        <h3 className="text-xl text-center font-bold">No Quizzes Found</h3>
+      );
     }
     return (
       <div className="flex flex-col space-y-8 max-w-full">

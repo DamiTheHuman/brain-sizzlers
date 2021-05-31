@@ -50,6 +50,12 @@ class LeaderBoards extends React.Component {
   render() {
     if (!this.state.users) {
       return <Loader size={48} />;
+    } else if (this.state.users.length === 0) {
+      return (
+        <h3 className="text-xl text-center font-bold">
+          There are no leaders yet
+        </h3>
+      );
     }
     return <div className="leader-boards lg:px-32">{this.renderList()}</div>;
   }
