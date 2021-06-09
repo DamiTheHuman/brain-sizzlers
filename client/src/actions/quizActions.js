@@ -25,7 +25,9 @@ export const fetchQuizzes = async (query = {}) => {
     console.log(err);
     return null;
   });
-
+  if (!request) {
+    return null;
+  }
   return request.data;
 };
 /**
@@ -38,6 +40,9 @@ export const fetchQuiz = async (quizName) => {
     console.log(err);
     return null;
   });
+  if (!request) {
+    return null;
+  }
   return request.data;
 };
 /**

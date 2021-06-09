@@ -27,5 +27,8 @@ export const fetchSubmissions = async (query = {}) => {
     console.log(err);
     return null;
   });
+  if (!request) {
+    return null;
+  }
   return request.data;
 };

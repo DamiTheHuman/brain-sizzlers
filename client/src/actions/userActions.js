@@ -14,6 +14,9 @@ export const fetchUsers = async (query = {}) => {
     console.log(err);
     return null;
   });
+  if (!request) {
+    return null;
+  }
   return request.data;
 };
 /**
@@ -29,5 +32,8 @@ export const fetchUser = async (userName) => {
     console.log(err);
     return null;
   });
+  if (!request) {
+    return null;
+  }
   return request.data;
 };
