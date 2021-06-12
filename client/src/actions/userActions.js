@@ -10,7 +10,7 @@ export const fetchUsers = async (query = {}) => {
   if (query) {
     getQuery = objectToGetRequest(query);
   }
-  const request = await server.get(`/users${getQuery}`).catch((err) => {
+  const request = await server.get(`/users${getQuery}`).catch(err => {
     console.log(err);
     return null;
   });
@@ -24,11 +24,11 @@ export const fetchUsers = async (query = {}) => {
  * @param {String} userName the user to search for
  * @returns {Object} the response from the server
  */
-export const fetchUser = async (userName) => {
+export const fetchUser = async userName => {
   if (!userName) {
     return null;
   }
-  const request = await server.get(`/users/${userName}`).catch((err) => {
+  const request = await server.get(`/users/${userName}`).catch(err => {
     console.log(err);
     return null;
   });
@@ -36,4 +36,16 @@ export const fetchUser = async (userName) => {
     return null;
   }
   return request.data;
+};
+/**
+ * Updates the specified user with set data
+ * @param {Object} user
+ * @param {Object} data
+ */
+export const updateUser = async (user, data) => {
+  await server
+    .put(`/users/update/${user.name}`, { user: user, data: data })
+    .catch(err => {
+      console.log(err);
+    });
 };

@@ -1,5 +1,5 @@
 import QuizModel from "./model.js";
-
+import { updateObjectKeys } from "../../api/general.js";
 export default {
   /**
    * Creates a new quiz and adds it to the database
@@ -17,7 +17,7 @@ export default {
       difficulty: 0,
       perfects: quizData.perfects,
       attempts: quizData.attempts,
-      author: userId,
+      author: userId
     });
     /**
      * Save a new quiz to the database
@@ -64,9 +64,7 @@ export default {
    * Updates the data of an existing quiz
    */
   updateQuiz: async (req, res) => {
-    const quiz = await QuizModel.findOne({ name: req.params.name })
-      .populate("author")
-      .exec();
+    const quiz = await QuizModel.findOne({ name: req.params.name }).exec();
     if (quiz) {
       if (req.body.data.incrementAttempts) {
         quiz.attempts += 1;
@@ -74,10 +72,11 @@ export default {
       if (req.body.data.incrementPerfects) {
         quiz.perfects += 1;
       }
+      updateObjectKeys(quiz, req.body.data);
       quiz.save();
       res.status(200);
     } else {
       res.status(404);
     }
-  },
+  }
 };

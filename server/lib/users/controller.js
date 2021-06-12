@@ -1,8 +1,7 @@
 import UserModel from "./model.js";
 import QuizModel from "../quizzes/model.js";
 import { OAuth2Client } from "google-auth-library";
-const client = new OAuth2Client(process.env.CLIENT_ID);
-
+import { updateObjectKeys } from "../../api/general.js";
 export default {
   /**
    * Fetches a list of users from the database
@@ -35,4 +34,17 @@ export default {
       res.status(404);
     }
   },
+  /**
+   * Updates the set users data
+   */
+  updateUser: async (req, res) => {
+    const user = await UserModel.findOne({ name: req.params.name }).exec();
+    if (user) {
+      updateObjectKeys(user, req.body.data);
+      user.save();
+      res.status(200);
+    } else {
+      res.status(404);
+    }
+  }
 };

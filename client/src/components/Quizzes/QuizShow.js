@@ -1,6 +1,13 @@
 import React from "react";
 import Modal from "../Modal";
-import { fetchQuiz, updateQuiz, createSubmission } from "../../actions/index";
+import { connect } from "react-redux";
+import {
+  fetchSession,
+  fetchQuiz,
+  updateQuiz,
+  createSubmission,
+  updateUser
+} from "../../actions/index";
 import Button from "../Button";
 import Feedback from "../Feedback";
 import Loader from "../Loader";
@@ -16,10 +23,11 @@ class QuizShow extends React.Component {
     answers: [],
     testCompleted: false,
     feedback: {},
-    showDescription: false,
+    showDescription: false
   };
   componentDidMount() {
     this.fetchQuiz();
+    this.props.fetchSession();
   }
   componentDidUpdate() {
     //Updates the quiz when the user selects a different quiz
@@ -38,7 +46,7 @@ class QuizShow extends React.Component {
     this.setState({
       quiz: quiz,
       answers: [],
-      testCompleted: false,
+      testCompleted: false
     });
   };
   /**
@@ -104,7 +112,8 @@ class QuizShow extends React.Component {
             </p>
             <div
               onClick={() => {
-                updateQuiz(this.state.quiz.name, { incrementAttempts: true });
+                const attempts = this.state.quiz.attempts + 1;
+                updateQuiz(this.state.quiz.name, { attempts: attempts });
                 this.loadNextSlide();
               }}
             >
@@ -184,7 +193,7 @@ class QuizShow extends React.Component {
     this.setState(
       {
         answers: answers,
-        testCompleted: answers.length === this.state.quiz.questions.length,
+        testCompleted: answers.length === this.state.quiz.questions.length
       },
       () => {
         if (this.state.testCompleted) {
@@ -209,7 +218,7 @@ class QuizShow extends React.Component {
             feedback[x] = {
               question: quiz.questions[x].description,
               correctOption: quiz.questions[x].options[y],
-              gotCorrect: true,
+              gotCorrect: true
             };
             correctAnswers++;
             break;
@@ -217,7 +226,7 @@ class QuizShow extends React.Component {
           feedback[x] = {
             question: quiz.questions[x].description,
             correctOption: quiz.questions[x].options[y],
-            gotCorrect: false,
+            gotCorrect: false
           };
           break;
         }
@@ -225,8 +234,13 @@ class QuizShow extends React.Component {
     }
     //Update the sucess rate
     if (correctAnswers === quiz.questions.length) {
-      updateQuiz(quiz.name, { incrementPerfects: true });
+      const perfects = this.state.quiz.perfects + 1;
+      updateQuiz(quiz.name, { perfects: perfects });
     }
+    //Update the users points
+    updateUser(this.props.user, {
+      points: this.props.user.points + correctAnswers * 100
+    });
     feedback.correctAnswers = correctAnswers;
     this.setState({ feedback: feedback }, () => {
       this.createSubmission();
@@ -240,7 +254,7 @@ class QuizShow extends React.Component {
       quizId: this.state.quiz._id,
       correct: this.state.feedback.correctAnswers,
       wrong:
-        this.state.feedback.correctAnswers - this.state.quiz.questions.length,
+        this.state.feedback.correctAnswers - this.state.quiz.questions.length
     };
     createSubmission(submission);
   };
@@ -264,7 +278,7 @@ class QuizShow extends React.Component {
    * Sets the value for show description where needed
    * @param {Boolean} value the new value for show description
    */
-  setShowDescription = (value) => {
+  setShowDescription = value => {
     this.setState({ showDescription: value });
   };
   /**
@@ -354,4 +368,9 @@ class QuizShow extends React.Component {
     );
   }
 }
-export default QuizShow;
+const mapStateToProps = state => {
+  return { user: state.users };
+};
+export default connect(mapStateToProps, {
+  fetchSession
+})(QuizShow);
