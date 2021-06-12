@@ -2,7 +2,11 @@ import React from "react";
 import CircularSlider from "@fseehawer/react-circular-slider";
 import CrosshairsQuestionIcon from "mdi-react/CrosshairsQuestionIcon";
 import SummitIcon from "mdi-react/SummitIcon";
-import { fetchUser, fetchSubmissions, fetchQuizzes } from "../../actions/index";
+import {
+  fetchUser,
+  fetchUserSubmissions,
+  fetchQuizzes
+} from "../../actions/index";
 import Card from "../Card";
 import Loader from "../Loader";
 import { formatDateToMMDDYY } from "../../api/general";
@@ -32,14 +36,14 @@ class UsersShow extends React.Component {
     const query = {
       find: { user: user._id },
       limit: 10,
-      sort: "desc",
+      sort: "desc"
     };
-    const submissions = await fetchSubmissions(query);
+    const submissions = await fetchUserSubmissions(query);
     const allQuizzes = await fetchQuizzes();
     this.setState({
       user: user,
       submissions: submissions,
-      allQuizzes: allQuizzes,
+      allQuizzes: allQuizzes
     });
   };
   /**
@@ -91,17 +95,24 @@ class UsersShow extends React.Component {
    * @returns {Number}
    */
   getUniquePerfectQuizSubmissions = () => {
-    function onlyUnique(value, index, self) {
+    if (!this.state.submissions) {
+      return [];
+    }
+    console.log(this.state.submissions);
+    const unique = this.state.submissions.filter((value, index, self) => {
       return (
         self.indexOf(value) === index &&
         value.correct === value.quiz.questions.length
       );
-    }
-    var unique = this.state.submissions.filter(onlyUnique);
+    });
     return unique;
   };
   render() {
-    if (!this.state.user) {
+    if (
+      !this.state.user ||
+      this.state.submissions === null ||
+      this.state.allQuizzes === null
+    ) {
       return <Loader size={128} extraStyle="w-full center-y" />;
     }
     return (

@@ -15,7 +15,7 @@ class Home extends React.Component {
     if (location.state) {
       this.setState(
         {
-          renderRedirectMessage: location.state.invalidLoginRedirect,
+          renderRedirectMessage: location.state.redirectMessage
         },
         () => {
           history.replace();
@@ -32,7 +32,7 @@ class Home extends React.Component {
     const quizzes = await fetchQuizzes({
       limit: 3,
       sort: "attempts",
-      order: "desc",
+      order: "desc"
     });
     this.setState({ quizzes: quizzes });
   };
@@ -57,10 +57,7 @@ class Home extends React.Component {
               <h3 className="text-center md:text-xl text-lg font-semibold">
                 Something Went Wrong!
               </h3>
-              <p>
-                The page you are trying to access requires you to be logged in
-                to view its content
-              </p>
+              <p>{this.state.renderRedirectMessage}</p>
             </div>
           }
           actions={
@@ -68,7 +65,7 @@ class Home extends React.Component {
               <div
                 onClick={() => {
                   this.setState({
-                    renderRedirectMessage: false,
+                    renderRedirectMessage: false
                   });
                 }}
               >
@@ -80,7 +77,7 @@ class Home extends React.Component {
           }
           onDismiss={() => {
             this.setState({
-              renderRedirectMessage: false,
+              renderRedirectMessage: false
             });
           }}
         />

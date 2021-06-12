@@ -12,14 +12,16 @@ class PrivateRoute extends React.Component {
     }
   }
   render() {
-    const testing = false;
     //user is not logged in
-    if (!this.props.users && testing === false) {
+    if (!this.props.user) {
       return (
         <Redirect
           to={{
             pathname: "/",
-            state: { invalidLoginRedirect: true },
+            state: {
+              redirectMessage: `The page you are trying to access requires you to be logged in
+            to view its content`
+            }
           }}
         />
       );
@@ -35,7 +37,7 @@ class PrivateRoute extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return { users: state.users };
+const mapStateToProps = state => {
+  return { user: state.user };
 };
 export default connect(mapStateToProps, { fetchSession })(PrivateRoute);

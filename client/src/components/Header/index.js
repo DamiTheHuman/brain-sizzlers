@@ -1,6 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
-import { loginUser, logoutUser, fetchSession } from "../../actions";
+import {
+  loginUser,
+  logoutUser,
+  fetchSession,
+  fetchSubmissions
+} from "../../actions";
 import HeaderLink from "../HeaderLink";
 import GoogleAuthButton from "../GoogleAuthButton";
 import HeaderLogo from "../../assets/logo_no_text_inverted.png";
@@ -9,43 +14,62 @@ import Loader from "../Loader";
 
 class Header extends React.Component {
   componentDidMount() {
-    this.props.fetchSession();
+    this.fetchUserSubmissions();
   }
+  /**
+   * Fetches the current users submissions
+   */
+  fetchUserSubmissions = async () => {
+    await this.props.fetchSession();
+    if (this.props.user) {
+      const query = {
+        find: { user: this.props.user._id },
+        limit: 10,
+        sort: "desc"
+      };
+      await this.props.fetchSubmissions(query);
+    }
+  };
   /**
    * Handles the attempt by the user to login via the google auth button
    * @param {Object} googleData
    */
-  onSuccess = (googleData) => {
-    this.props.loginUser(googleData);
+  onSuccess = async googleData => {
+    await this.props.loginUser(googleData);
+    window.location.reload();
   };
-
-  onFailure = (err) => {
-    alert("login failed");
+  /**
+   * Handles the event when an error occurs
+   * @param {String} err
+   */
+  onFailure = err => {
+    console.error(err.details);
   };
   /**
    * Renders the appropriate button action if the user is logged in
    * @returns object
    */
   renderLogin = () => {
-    if (JSON.stringify(this.props.users) === "{}") {
+    if (JSON.stringify(this.props.user) === "{}") {
       return <Loader />;
     }
-    if (this.props.users) {
+    if (this.props.user) {
       return (
         <React.Fragment>
           <button
             className="font-bold h-full"
-            onClick={() => {
+            onClick={async () => {
               this.props.logoutUser();
+              window.location.reload();
             }}
           >
             <HeaderLink>Logout</HeaderLink>
           </button>
-          <Link to={`/users/${this.props.users.name}`} className="p-4">
+          <Link to={`/users/${this.props.user.name}`} className="p-4">
             <img
-              src={this.props.users.picture}
+              src={this.props.user.picture}
               className="rounded-full w-12  border-gray-600 hover:border-primary border-2 p-0.5"
-              alt={`${this.props.users.name}`}
+              alt={`${this.props.user.name}`}
             />
           </Link>
         </React.Fragment>
@@ -79,11 +103,12 @@ class Header extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return { users: state.users };
+const mapStateToProps = state => {
+  return { user: state.user };
 };
 export default connect(mapStateToProps, {
   loginUser,
   logoutUser,
   fetchSession,
+  fetchSubmissions
 })(Header);

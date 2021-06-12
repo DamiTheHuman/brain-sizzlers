@@ -1,8 +1,11 @@
 import React from "react";
 import Modal from "../Modal";
 import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
+
 import {
   fetchSession,
+  fetchSubmissions,
   fetchQuiz,
   updateQuiz,
   createSubmission,
@@ -27,7 +30,6 @@ class QuizShow extends React.Component {
   };
   componentDidMount() {
     this.fetchQuiz();
-    this.props.fetchSession();
   }
   componentDidUpdate() {
     //Updates the quiz when the user selects a different quiz
@@ -37,12 +39,17 @@ class QuizShow extends React.Component {
       }
     }
   }
+
   /**
    * Fetches a singular quiz based on the current route
    */
   fetchQuiz = async () => {
     const quizName = this.props.match.params.name;
     const quiz = await fetchQuiz(quizName);
+    if (!this.props.user) {
+      await this.props.fetchSession();
+      await this.props.fetchSubmissions();
+    }
     this.setState({
       quiz: quiz,
       answers: [],
@@ -242,21 +249,21 @@ class QuizShow extends React.Component {
       points: this.props.user.points + correctAnswers * 100
     });
     feedback.correctAnswers = correctAnswers;
-    this.setState({ feedback: feedback }, () => {
-      this.createSubmission();
-    });
+    this.setState({ feedback: feedback });
+    this.createSubmission(quiz, feedback);
   };
   /**
    * Creates a new submission based on the feedback and sends it to the database
+   * @param {Object} quiz quiz data to store
+   * @param {Object} feedback the feedback for the quiz
    */
-  createSubmission = async () => {
-    var submission = {
-      quizId: this.state.quiz._id,
-      correct: this.state.feedback.correctAnswers,
-      wrong:
-        this.state.feedback.correctAnswers - this.state.quiz.questions.length
+  createSubmission = async (quiz, feedback) => {
+    const submission = {
+      quizId: quiz._id,
+      correct: feedback.correctAnswers,
+      wrong: feedback.correctAnswers - quiz.questions.length
     };
-    createSubmission(submission);
+    this.props.createSubmission(submission);
   };
   /**
    * Gets the styling for the tab component
@@ -324,9 +331,33 @@ class QuizShow extends React.Component {
     }
     return null;
   };
+  /**
+   * Checks if a quiz has already been taken
+   * @returns {Boolean}
+   */
+  quizAlreadyTaken = quiz => {
+    for (var x = 0; x < this.props.submissions.length; x++) {
+      if (this.props.submissions[x].quiz._id === quiz._id) {
+        return true;
+      }
+    }
+    return false;
+  };
   render() {
     if (!this.state.quiz) {
       return <Loader />;
+    } else if (this.quizAlreadyTaken(this.state.quiz)) {
+      return (
+        <Redirect
+          to={{
+            pathname: "/",
+            state: {
+              redirectMessage:
+                "You have already taken this quiz! Please select a quiz you have not taken"
+            }
+          }}
+        />
+      );
     }
     return (
       <div className="quiz-show h-full">
@@ -369,8 +400,10 @@ class QuizShow extends React.Component {
   }
 }
 const mapStateToProps = state => {
-  return { user: state.users };
+  return { user: state.user, submissions: state.submissions };
 };
 export default connect(mapStateToProps, {
-  fetchSession
+  fetchSession,
+  fetchSubmissions,
+  createSubmission
 })(QuizShow);

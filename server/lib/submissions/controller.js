@@ -14,15 +14,14 @@ export default {
       correct: submissionData.correct,
       wrong: submissionData.wrong,
       user: userId,
-      quiz: submissionData.quizId,
+      quiz: submissionData.quizId
     });
     /**
      * Save a new submission to the database
      */
     submission.save(function (err) {
-      if (err) return res.send(500, { error: err });
-      req.session.save();
-      res.status(201);
+      if (err) return res.status(500).send({ error: err });
+      res.status(200).send(submission);
     });
   },
   /**
@@ -43,5 +42,5 @@ export default {
       .exec();
     res.status(201);
     res.status(200).send(submissions);
-  },
+  }
 };

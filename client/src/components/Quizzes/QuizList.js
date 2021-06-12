@@ -16,7 +16,7 @@ class QuizList extends React.Component {
     const quizzes = await fetchQuizzes({
       limit: 10,
       sort: "attempts",
-      order: "desc",
+      order: "desc"
     });
     this.setState({ quizzes: quizzes });
   };

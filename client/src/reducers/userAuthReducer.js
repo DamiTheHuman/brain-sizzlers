@@ -1,6 +1,6 @@
 import { LOGIN_USER, LOGOUT_USER, FETCH_USER } from "../actions/types";
 const INITIAL_STATE = {};
-const usersReducer = (state = INITIAL_STATE, action) => {
+const userAuthReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case FETCH_USER:
       return action.payload;
@@ -12,4 +12,4 @@ const usersReducer = (state = INITIAL_STATE, action) => {
       return state;
   }
 };
-export default usersReducer;
+export default userAuthReducer;
