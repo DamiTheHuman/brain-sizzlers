@@ -92,7 +92,6 @@ class Header extends React.Component {
           </HeaderLink>
           <div className="flex relative h-full items-center px-2">
             <HeaderLink to="/">Home</HeaderLink>
-            <HeaderLink to="/">About</HeaderLink>
             <div className="px-2 h-full flex items-center">
               {this.renderLogin()}
             </div>
