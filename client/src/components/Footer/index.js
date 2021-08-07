@@ -6,7 +6,7 @@ const Footer = () => {
     <footer className="flex-shrink-0 bg-black shadow-lg text-white min-w-full">
       {/* Copyright*/}
       <p className="text-center py-8 text-base">
-        &copy; Copyright {currentDate}, Headless Coder
+        &copy; Copyright {currentDate}, Dami Script
       </p>
     </footer>
   );
